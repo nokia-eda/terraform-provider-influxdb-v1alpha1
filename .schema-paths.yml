@@ -1,0 +1,207 @@
+app_group:
+  - read:
+      path: /apps/influxdb.eda.nokia.com
+      method: GET
+
+patch:
+  - update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
+      method: PATCH
+  - update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}
+      method: PATCH
+  - update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}
+      method: PATCH
+  - update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}
+      method: PATCH
+
+resource_history:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_revs
+      method: GET
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}/_revs
+      method: GET
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_revs
+      method: GET
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_revs
+      method: GET
+
+resource_list:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1
+      method: GET
+
+resource_topology:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_topology
+      method: GET
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}/_topology
+      method: GET
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_topology
+      method: GET
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_topology
+      method: GET
+
+status:
+  - delete:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
+      method: DELETE
+  - delete:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}
+      method: DELETE
+  - delete:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}
+      method: DELETE
+  - delete:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}
+      method: DELETE
+
+ui_result:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/_ui/{pathname}
+      method: GET
+
+com.nokia.eda.influxdb.v1alpha1.cluster_export:
+  - create:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports
+      method: POST
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
+      method: GET
+  - update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
+      method: PUT
+
+com.nokia.eda.influxdb.v1alpha1.cluster_export_list:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports
+      method: GET
+  - delete:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports
+      method: DELETE
+
+com.nokia.eda.influxdb.v1alpha1.cluster_export_deleted_resources:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/_deleted
+      method: GET
+
+com.nokia.eda.influxdb.v1alpha1.cluster_server:
+  - create:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers
+      method: POST
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}
+      method: GET
+  - update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}
+      method: PUT
+
+com.nokia.eda.influxdb.v1alpha1.cluster_server_list:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers
+      method: GET
+  - delete:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers
+      method: DELETE
+
+com.nokia.eda.influxdb.v1alpha1.cluster_server_deleted_resources:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/_deleted
+      method: GET
+
+com.nokia.eda.influxdb.v1alpha1.export:
+  - create:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports
+      method: POST
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}
+      method: GET
+  - update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}
+      method: PUT
+
+com.nokia.eda.influxdb.v1alpha1.export_list:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/exports
+      method: GET
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports
+      method: GET
+  - delete:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports
+      method: DELETE
+
+com.nokia.eda.influxdb.v1alpha1.export_deleted_resources:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/_deleted
+      method: GET
+
+com.nokia.eda.influxdb.v1alpha1.server:
+  - create:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers
+      method: POST
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}
+      method: GET
+  - update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}
+      method: PUT
+
+com.nokia.eda.influxdb.v1alpha1.server_list:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers
+      method: GET
+  - delete:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers
+      method: DELETE
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/servers
+      method: GET
+
+com.nokia.eda.influxdb.v1alpha1.server_deleted_resources:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/_deleted
+      method: GET
+
+totalPaths: 25
+totalSchemas: 48
+usedSchemas: 19
+unusedSchemas: 29
+unusedSchemaList:
+  - AppGroupVersion
+  - ErrorIndex
+  - ErrorItem
+  - ErrorResponse
+  - K8SPatchOp
+  - OverlayState
+  - Resource
+  - ResourceHistoryEntry
+  - StatusDetails
+  - TopoAttrMetadata
+  - TopoElemMetadata
+  - TopoLinkEndpoint
+  - TopoNodeGrouping
+  - TopoOverlayEndpoint
+  - TopoOverlayEndpointState
+  - TopoOverlayLink
+  - TopoOverlayLinkState
+  - TopoOverlayNode
+  - TopoOverlayNodeState
+  - TopoSchema
+  - Topology
+  - com.nokia.eda.influxdb.v1alpha1.ClusterExport_DeletedResourceEntry
+  - com.nokia.eda.influxdb.v1alpha1.ClusterExport_metadata
+  - com.nokia.eda.influxdb.v1alpha1.ClusterServer_DeletedResourceEntry
+  - com.nokia.eda.influxdb.v1alpha1.ClusterServer_metadata
+  - com.nokia.eda.influxdb.v1alpha1.Export_DeletedResourceEntry
+  - com.nokia.eda.influxdb.v1alpha1.Export_metadata
+  - com.nokia.eda.influxdb.v1alpha1.Server_DeletedResourceEntry
+  - com.nokia.eda.influxdb.v1alpha1.Server_metadata

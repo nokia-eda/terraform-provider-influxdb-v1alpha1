@@ -1,0 +1,110 @@
+provider:
+  name: influxdb
+
+data_sources:
+  app_group:
+    read:
+      path: /apps/influxdb.eda.nokia.com
+      method: GET
+
+  cluster_export:
+    read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
+      method: GET
+
+  cluster_export_list:
+    read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports
+      method: GET
+
+  cluster_server:
+    read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}
+      method: GET
+
+  cluster_server_list:
+    read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers
+      method: GET
+
+  export:
+    read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}
+      method: GET
+
+  export_list:
+    read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports
+      method: GET
+
+  resource_list:
+    read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1
+      method: GET
+
+  server:
+    read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}
+      method: GET
+
+  server_list:
+    read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers
+      method: GET
+
+resources:
+  cluster_export:
+    create:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports
+      method: POST
+    read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
+      method: GET
+    update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
+      method: PUT
+    delete:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
+      method: DELETE
+
+  cluster_server:
+    create:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers
+      method: POST
+    read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}
+      method: GET
+    update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}
+      method: PUT
+    delete:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}
+      method: DELETE
+
+  export:
+    create:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports
+      method: POST
+    read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}
+      method: GET
+    update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}
+      method: PUT
+    delete:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}
+      method: DELETE
+
+  server:
+    create:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers
+      method: POST
+    read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}
+      method: GET
+    update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}
+      method: PUT
+    delete:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}
+      method: DELETE
