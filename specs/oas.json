@@ -57,28 +57,56 @@
         "type": "object"
       },
       "ErrorResponse": {
-        "description": "Generic error response for REST APIs",
         "properties": {
+          "causeCollection": {
+            "description": "A lower-level set of structured errors.\n\nOnly oneOf `causeWrapped`, `causeSimple`, `causeCollection`, or `causeIndexedCollection` will ever be set.",
+            "items": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "type": "array"
+          },
+          "causeIndexedCollection": {
+            "description": "A lower-level set of structured errors.\nEach of these errors MUST have index set.\n\nOnly oneOf `causeWrapped`, `causeSimple`, `causeCollection`, or `causeIndexedCollection` will ever be set.",
+            "items": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "type": "array"
+          },
+          "causeIsInternal": {
+            "description": "If true, then the cause (`causeWrapped`, `causeSimple`, `causeCollection`, or `causeIndexedCollection`) should be hidden from the user.",
+            "type": "boolean"
+          },
+          "causeSimple": {
+            "description": "Simple string error type.\n\nOnly oneOf `causeWrapped`, `causeSimple`, `causeCollection`, or `causeIndexedCollection` will ever be set.",
+            "type": "string"
+          },
+          "causeWrapped": {
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
           "code": {
-            "description": "the numeric HTTP error code for the response.",
+            "deprecated": true,
+            "description": "the numeric HTTP error code for the response.\n\nDeprecated: Prefer to check the request's HTTP response code directly.",
             "format": "int64",
             "type": "integer"
           },
           "details": {
-            "description": "The optional details of the error response.",
+            "deprecated": true,
+            "description": "The optional details of the error response.\nDeprecated: Replaced by `causeSimple`.",
             "type": "string"
           },
           "dictionary": {
             "additionalProperties": true,
-            "description": "Dictionary/map of associated data/information relevant to the error.\nThe error \"message\" may contain {{name}} escapes that should be substituted\nwith information from this dictionary.",
+            "deprecated": true,
+            "description": "Dictionary/map of associated data/information relevant to the error.\nThe error \"message\" may contain {{name}} escapes that should be substituted\nwith information from this dictionary.\n\nDeprecated: Use \"values\" instead.",
             "type": "object"
           },
           "domain": {
-            "description": "The \"domain\" for the error.  If empty, it is an EDA\ncore error.  Alternatively it can be an EDA application\n\"apiVersion\" value (e.g. interfaces.eda.nokia.com/v1alpha1)\nindicating that the error is specific to that application.\nThe domain gives the receiver information that they can use\nto help them interpret the \"internal\" error code value, or\nto find an internationalization translation for the message.",
+            "description": "The \"domain\" for the error.  If empty, it is an EDA\ncore error.  Alternatively it can be an EDA application\n\"apiVersion\" value (e.g. interfaces.eda.nokia.com/v1alpha1)\nindicating that the error is specific to that application.\nThe domain gives the receiver information that they can use\nto help them interpret the \"type\" field.",
             "type": "string"
           },
           "errors": {
-            "description": "Collection of errors in cases where more than one exists. This needs to be\nflexible so we can support multiple formats",
+            "deprecated": true,
+            "description": "Collection of errors in cases where more than one exists.\nThis needs to be flexible so we can support multiple formats.\nDeprecated: Replaced by `causeCollection` or `causeIndexedCollection` instead.",
             "items": {
               "$ref": "#/components/schemas/ErrorItem"
             },
@@ -88,7 +116,8 @@
             "$ref": "#/components/schemas/ErrorIndex"
           },
           "internal": {
-            "description": "Internal error code in cases where we don't have an array of errors",
+            "deprecated": true,
+            "description": "Internal error code number.\n\nDeprecated: \"type\" \u0026 \"domain\" should be used instead to uniquely identify this error.",
             "format": "int64",
             "type": "integer"
           },
@@ -97,19 +126,45 @@
             "type": "string"
           },
           "ref": {
-            "description": "Reference to the error source. Should typically be the URI of the request",
+            "description": "Reference to the error source. Should typically be the URI of the request.",
             "type": "string"
           },
           "type": {
-            "description": "URI pointing at a document that describes the error and mitigation steps\nIf there is no document, point to the RFC for the HTTP error code",
+            "description": "Type defines a unique identifier for the error, within the domain.\nThis may be used (along with the domain) to find an internationalization translation for the message.\n\nSHOULD be a valid golang identifier, and SHOULD be in UpperCamelCase.",
             "type": "string"
+          },
+          "values": {
+            "additionalProperties": {
+              "type": "object"
+            },
+            "description": "Associated data/information.\nThe error \"message\" may contain {{name}} escapes that should be substituted with information from this dictionary.\n\nNote that this map MUST NOT contain JSON objects (`{...}`) or arrays (`[...]`), only simple JSON types are permitted.",
+            "type": "object"
           }
         },
         "required": [
-          "code",
-          "message"
+          "internal",
+          "message",
+          "type"
         ],
+        "title": "Generic error response for REST APIs.",
         "type": "object"
+      },
+      "IntentTarget": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "IntentTargets": {
+        "items": {
+          "$ref": "#/components/schemas/IntentTarget"
+        },
+        "type": "array"
       },
       "K8SPatchOp": {
         "properties": {
@@ -135,8 +190,28 @@
         ],
         "type": "object"
       },
+      "K8STopologyRequest": {
+        "properties": {
+          "filter": {
+            "$ref": "#/components/schemas/TopoStateFilter"
+          },
+          "recurse": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "OverlayState": {
         "properties": {
+          "link_groups": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TopoOverlayLinkGroup"
+            },
+            "type": "object"
+          },
           "links": {
             "additionalProperties": {
               "$ref": "#/components/schemas/TopoOverlayLink"
@@ -146,6 +221,12 @@
           "nodes": {
             "additionalProperties": {
               "$ref": "#/components/schemas/TopoOverlayNode"
+            },
+            "type": "object"
+          },
+          "nodes_and_groups": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TopoOverlayNodeOrGroup"
             },
             "type": "object"
           }
@@ -295,6 +376,51 @@
         },
         "type": "object"
       },
+      "TopoAttribute": {
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TopoBoolExpression": {
+        "properties": {
+          "endpoint_expression": {
+            "$ref": "#/components/schemas/TopoEndpointBoolExpression"
+          },
+          "fixed_expression": {
+            "$ref": "#/components/schemas/TopoFixedBoolExpression"
+          },
+          "has_badge": {
+            "$ref": "#/components/schemas/TopoLiteralStatusOrBadge"
+          },
+          "label": {
+            "$ref": "#/components/schemas/TopoLabelSelector"
+          },
+          "literal": {
+            "$ref": "#/components/schemas/TopoBoolLiteral"
+          },
+          "logical": {
+            "$ref": "#/components/schemas/TopoLogicalExpression"
+          },
+          "not": {
+            "$ref": "#/components/schemas/TopoBoolExpression"
+          },
+          "value_expression": {
+            "$ref": "#/components/schemas/TopoValueExpression"
+          }
+        },
+        "type": "object"
+      },
+      "TopoBoolLiteral": {
+        "properties": {
+          "value": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
       "TopoElemMetadata": {
         "properties": {
           "attributes": {
@@ -315,16 +441,87 @@
         },
         "type": "object"
       },
-      "TopoLinkEndpoint": {
+      "TopoEndpointBoolExpression": {
         "properties": {
           "endpoint": {
             "type": "string"
           },
-          "node": {
+          "expression": {
+            "$ref": "#/components/schemas/TopoBoolExpression"
+          }
+        },
+        "type": "object"
+      },
+      "TopoField": {
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TopoFixedBoolExpression": {
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TopoLabelSelector": {
+        "properties": {
+          "selector": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "TopoLiteralStatusOrBadge": {
+        "properties": {
+          "overlay": {
             "type": "string"
           },
-          "node_key": {
+          "value": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "TopoLiteralValue": {
+        "properties": {
+          "badge": {
+            "$ref": "#/components/schemas/TopoLiteralStatusOrBadge"
+          },
+          "bool": {
+            "type": "boolean"
+          },
+          "number": {
+            "format": "double",
+            "type": "number"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TopoLiteralStatusOrBadge"
+          },
+          "string": {
             "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TopoLogicalExpression": {
+        "properties": {
+          "left": {
+            "$ref": "#/components/schemas/TopoBoolExpression"
+          },
+          "operation": {
+            "type": "string"
+          },
+          "right": {
+            "$ref": "#/components/schemas/TopoBoolExpression"
           }
         },
         "type": "object"
@@ -332,6 +529,9 @@
       "TopoNodeGrouping": {
         "properties": {
           "group": {
+            "type": "string"
+          },
+          "group_key": {
             "type": "string"
           },
           "tier": {
@@ -364,6 +564,12 @@
           "namespace": {
             "type": "string"
           },
+          "node": {
+            "type": "string"
+          },
+          "node_key": {
+            "type": "string"
+          },
           "overlays": {
             "additionalProperties": {
               "$ref": "#/components/schemas/TopoOverlayEndpointState"
@@ -372,10 +578,6 @@
           },
           "schema": {
             "$ref": "#/components/schemas/TopoSchema"
-          },
-          "state": {
-            "format": "int64",
-            "type": "integer"
           },
           "ui_name": {
             "type": "string"
@@ -404,16 +606,19 @@
             "type": "string"
           },
           "endpoint_a": {
-            "$ref": "#/components/schemas/TopoLinkEndpoint"
-          },
-          "endpoint_a_details": {
             "$ref": "#/components/schemas/TopoOverlayEndpoint"
+          },
+          "endpoint_a_name": {
+            "type": "string"
           },
           "endpoint_b": {
-            "$ref": "#/components/schemas/TopoLinkEndpoint"
-          },
-          "endpoint_b_details": {
             "$ref": "#/components/schemas/TopoOverlayEndpoint"
+          },
+          "endpoint_b_name": {
+            "type": "string"
+          },
+          "group_key": {
+            "type": "string"
           },
           "key": {
             "type": "string"
@@ -439,11 +644,38 @@
           "schema": {
             "$ref": "#/components/schemas/TopoSchema"
           },
-          "state": {
-            "format": "int64",
-            "type": "integer"
-          },
           "ui_name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TopoOverlayLinkGroup": {
+        "properties": {
+          "endpoint_a": {
+            "$ref": "#/components/schemas/TopoOverlayLinkGroupEndpoint"
+          },
+          "endpoint_b": {
+            "$ref": "#/components/schemas/TopoOverlayLinkGroupEndpoint"
+          },
+          "key": {
+            "type": "string"
+          },
+          "overlays": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TopoOverlayLinkState"
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "TopoOverlayLinkGroupEndpoint": {
+        "properties": {
+          "group_key": {
+            "type": "string"
+          },
+          "node_key": {
             "type": "string"
           }
         },
@@ -465,13 +697,6 @@
               "type": "object"
             },
             "type": "object"
-          },
-          "badges": {
-            "items": {
-              "format": "int64",
-              "type": "integer"
-            },
-            "type": "array"
           },
           "cr_name": {
             "type": "string"
@@ -503,9 +728,56 @@
           "schema": {
             "$ref": "#/components/schemas/TopoSchema"
           },
-          "state": {
+          "ui_name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TopoOverlayNodeOrGroup": {
+        "properties": {
+          "attributes": {
+            "additionalProperties": {
+              "type": "object"
+            },
+            "type": "object"
+          },
+          "cr_name": {
+            "type": "string"
+          },
+          "grouping": {
+            "$ref": "#/components/schemas/TopoNodeGrouping"
+          },
+          "key": {
+            "type": "string"
+          },
+          "labels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "name": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "num_nodes": {
             "format": "int64",
             "type": "integer"
+          },
+          "overlays": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TopoOverlayNodeState"
+            },
+            "type": "object"
+          },
+          "schema": {
+            "$ref": "#/components/schemas/TopoSchema"
+          },
+          "type": {
+            "type": "string"
           },
           "ui_name": {
             "type": "string"
@@ -529,6 +801,14 @@
         },
         "type": "object"
       },
+      "TopoOverlayValue": {
+        "properties": {
+          "overlay": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "TopoSchema": {
         "properties": {
           "group": {
@@ -539,6 +819,69 @@
           },
           "version": {
             "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TopoStateFilter": {
+        "properties": {
+          "expand_all_link_groups": {
+            "type": "boolean"
+          },
+          "expand_all_node_groups": {
+            "type": "boolean"
+          },
+          "expanded_link_groups": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "expanded_node_groups": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "link_filter": {
+            "$ref": "#/components/schemas/TopoBoolExpression"
+          },
+          "node_filter": {
+            "$ref": "#/components/schemas/TopoBoolExpression"
+          }
+        },
+        "type": "object"
+      },
+      "TopoValue": {
+        "properties": {
+          "attribute": {
+            "$ref": "#/components/schemas/TopoAttribute"
+          },
+          "badge": {
+            "$ref": "#/components/schemas/TopoOverlayValue"
+          },
+          "field": {
+            "$ref": "#/components/schemas/TopoField"
+          },
+          "literal": {
+            "$ref": "#/components/schemas/TopoLiteralValue"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TopoOverlayValue"
+          }
+        },
+        "type": "object"
+      },
+      "TopoValueExpression": {
+        "properties": {
+          "left": {
+            "$ref": "#/components/schemas/TopoValue"
+          },
+          "operation": {
+            "type": "string"
+          },
+          "right": {
+            "$ref": "#/components/schemas/TopoValue"
           }
         },
         "type": "object"
@@ -587,6 +930,9 @@
       "com.nokia.eda.influxdb.v1alpha1.ClusterExport": {
         "description": "ClusterExport is the Schema for the clusterexports API",
         "properties": {
+          "alarms": {
+            "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExport_alarms"
+          },
           "apiVersion": {
             "default": "influxdb.eda.nokia.com/v1alpha1",
             "pattern": "^influxdb\\.eda\\.nokia\\.com/v1alpha1$",
@@ -595,6 +941,9 @@
               "ui-pattern-error": "The apiVersion must be set to influxdb.eda.nokia.com/v1alpha1",
               "ui-visible-if": "false"
             }
+          },
+          "deviations": {
+            "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExport_deviations"
           },
           "kind": {
             "default": "ClusterExport",
@@ -1047,6 +1396,14 @@
               "ui-title-key": "name"
             }
           },
+          "namespace": {
+            "type": "string",
+            "x-eda-nokia-com": {
+              "ui-order-priority": 20,
+              "ui-title": "Namespace",
+              "ui-title-key": "namespace"
+            }
+          },
           "transactionId": {
             "format": "uint64",
             "type": "integer",
@@ -1064,6 +1421,73 @@
           "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExport_DeletedResourceEntry"
         },
         "type": "array"
+      },
+      "com.nokia.eda.influxdb.v1alpha1.ClusterExport_alarms": {
+        "properties": {
+          "critical": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Critical",
+              "ui-title-key": "alarm_severities.critical"
+            }
+          },
+          "major": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Major",
+              "ui-title-key": "alarm_severities.major"
+            }
+          },
+          "minor": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "minor",
+              "ui-title-key": "alarm_severities.minor"
+            }
+          },
+          "warning": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Warning",
+              "ui-title-key": "alarm_severities.warning"
+            }
+          }
+        },
+        "readOnly": true,
+        "type": "object",
+        "x-eda-nokia-com": {
+          "ui-order-priority": 40,
+          "ui-title": "Alarms",
+          "ui-title-key": "alarms"
+        }
+      },
+      "com.nokia.eda.influxdb.v1alpha1.ClusterExport_deviations": {
+        "properties": {
+          "count": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Count",
+              "ui-title-key": "count_column"
+            }
+          }
+        },
+        "readOnly": true,
+        "type": "object",
+        "x-eda-nokia-com": {
+          "ui-order-priority": 25,
+          "ui-title": "Deviations",
+          "ui-title-key": "deviations"
+        }
       },
       "com.nokia.eda.influxdb.v1alpha1.ClusterExport_metadata": {
         "properties": {
@@ -1109,6 +1533,17 @@
               "ui-title": "Name",
               "ui-title-key": "name"
             }
+          },
+          "namespace": {
+            "default": "eda-system",
+            "type": "string",
+            "x-eda-nokia-com": {
+              "immutable": true,
+              "ui-order-priority": 20,
+              "ui-title": "Namespace",
+              "ui-title-key": "namespace",
+              "ui-visible-if": "false"
+            }
           }
         },
         "required": [
@@ -1124,6 +1559,9 @@
       "com.nokia.eda.influxdb.v1alpha1.ClusterServer": {
         "description": "ClusterServer is the Schema for the clusterservers API",
         "properties": {
+          "alarms": {
+            "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServer_alarms"
+          },
           "apiVersion": {
             "default": "influxdb.eda.nokia.com/v1alpha1",
             "pattern": "^influxdb\\.eda\\.nokia\\.com/v1alpha1$",
@@ -1132,6 +1570,9 @@
               "ui-pattern-error": "The apiVersion must be set to influxdb.eda.nokia.com/v1alpha1",
               "ui-visible-if": "false"
             }
+          },
+          "deviations": {
+            "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServer_deviations"
           },
           "kind": {
             "default": "ClusterServer",
@@ -1401,6 +1842,14 @@
               "ui-title-key": "name"
             }
           },
+          "namespace": {
+            "type": "string",
+            "x-eda-nokia-com": {
+              "ui-order-priority": 20,
+              "ui-title": "Namespace",
+              "ui-title-key": "namespace"
+            }
+          },
           "transactionId": {
             "format": "uint64",
             "type": "integer",
@@ -1418,6 +1867,73 @@
           "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServer_DeletedResourceEntry"
         },
         "type": "array"
+      },
+      "com.nokia.eda.influxdb.v1alpha1.ClusterServer_alarms": {
+        "properties": {
+          "critical": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Critical",
+              "ui-title-key": "alarm_severities.critical"
+            }
+          },
+          "major": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Major",
+              "ui-title-key": "alarm_severities.major"
+            }
+          },
+          "minor": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "minor",
+              "ui-title-key": "alarm_severities.minor"
+            }
+          },
+          "warning": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Warning",
+              "ui-title-key": "alarm_severities.warning"
+            }
+          }
+        },
+        "readOnly": true,
+        "type": "object",
+        "x-eda-nokia-com": {
+          "ui-order-priority": 40,
+          "ui-title": "Alarms",
+          "ui-title-key": "alarms"
+        }
+      },
+      "com.nokia.eda.influxdb.v1alpha1.ClusterServer_deviations": {
+        "properties": {
+          "count": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Count",
+              "ui-title-key": "count_column"
+            }
+          }
+        },
+        "readOnly": true,
+        "type": "object",
+        "x-eda-nokia-com": {
+          "ui-order-priority": 25,
+          "ui-title": "Deviations",
+          "ui-title-key": "deviations"
+        }
       },
       "com.nokia.eda.influxdb.v1alpha1.ClusterServer_metadata": {
         "properties": {
@@ -1463,6 +1979,17 @@
               "ui-title": "Name",
               "ui-title-key": "name"
             }
+          },
+          "namespace": {
+            "default": "eda-system",
+            "type": "string",
+            "x-eda-nokia-com": {
+              "immutable": true,
+              "ui-order-priority": 20,
+              "ui-title": "Namespace",
+              "ui-title-key": "namespace",
+              "ui-visible-if": "false"
+            }
           }
         },
         "required": [
@@ -1478,6 +2005,9 @@
       "com.nokia.eda.influxdb.v1alpha1.Export": {
         "description": "Export is the Schema for the exports API",
         "properties": {
+          "alarms": {
+            "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Export_alarms"
+          },
           "apiVersion": {
             "default": "influxdb.eda.nokia.com/v1alpha1",
             "pattern": "^influxdb\\.eda\\.nokia\\.com/v1alpha1$",
@@ -1486,6 +2016,9 @@
               "ui-pattern-error": "The apiVersion must be set to influxdb.eda.nokia.com/v1alpha1",
               "ui-visible-if": "false"
             }
+          },
+          "deviations": {
+            "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Export_deviations"
           },
           "kind": {
             "default": "Export",
@@ -1942,6 +2475,73 @@
         },
         "type": "array"
       },
+      "com.nokia.eda.influxdb.v1alpha1.Export_alarms": {
+        "properties": {
+          "critical": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Critical",
+              "ui-title-key": "alarm_severities.critical"
+            }
+          },
+          "major": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Major",
+              "ui-title-key": "alarm_severities.major"
+            }
+          },
+          "minor": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "minor",
+              "ui-title-key": "alarm_severities.minor"
+            }
+          },
+          "warning": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Warning",
+              "ui-title-key": "alarm_severities.warning"
+            }
+          }
+        },
+        "readOnly": true,
+        "type": "object",
+        "x-eda-nokia-com": {
+          "ui-order-priority": 40,
+          "ui-title": "Alarms",
+          "ui-title-key": "alarms"
+        }
+      },
+      "com.nokia.eda.influxdb.v1alpha1.Export_deviations": {
+        "properties": {
+          "count": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Count",
+              "ui-title-key": "count_column"
+            }
+          }
+        },
+        "readOnly": true,
+        "type": "object",
+        "x-eda-nokia-com": {
+          "ui-order-priority": 25,
+          "ui-title": "Deviations",
+          "ui-title-key": "deviations"
+        }
+      },
       "com.nokia.eda.influxdb.v1alpha1.Export_metadata": {
         "properties": {
           "annotations": {
@@ -2011,6 +2611,9 @@
       "com.nokia.eda.influxdb.v1alpha1.Server": {
         "description": "Server is the Schema for the servers API",
         "properties": {
+          "alarms": {
+            "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Server_alarms"
+          },
           "apiVersion": {
             "default": "influxdb.eda.nokia.com/v1alpha1",
             "pattern": "^influxdb\\.eda\\.nokia\\.com/v1alpha1$",
@@ -2019,6 +2622,9 @@
               "ui-pattern-error": "The apiVersion must be set to influxdb.eda.nokia.com/v1alpha1",
               "ui-visible-if": "false"
             }
+          },
+          "deviations": {
+            "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Server_deviations"
           },
           "kind": {
             "default": "Server",
@@ -2314,6 +2920,73 @@
         },
         "type": "array"
       },
+      "com.nokia.eda.influxdb.v1alpha1.Server_alarms": {
+        "properties": {
+          "critical": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Critical",
+              "ui-title-key": "alarm_severities.critical"
+            }
+          },
+          "major": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Major",
+              "ui-title-key": "alarm_severities.major"
+            }
+          },
+          "minor": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "minor",
+              "ui-title-key": "alarm_severities.minor"
+            }
+          },
+          "warning": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Warning",
+              "ui-title-key": "alarm_severities.warning"
+            }
+          }
+        },
+        "readOnly": true,
+        "type": "object",
+        "x-eda-nokia-com": {
+          "ui-order-priority": 40,
+          "ui-title": "Alarms",
+          "ui-title-key": "alarms"
+        }
+      },
+      "com.nokia.eda.influxdb.v1alpha1.Server_deviations": {
+        "properties": {
+          "count": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "ui-title": "Count",
+              "ui-title-key": "count_column"
+            }
+          }
+        },
+        "readOnly": true,
+        "type": "object",
+        "x-eda-nokia-com": {
+          "ui-order-priority": 25,
+          "ui-title": "Deviations",
+          "ui-title-key": "deviations"
+        }
+      },
       "com.nokia.eda.influxdb.v1alpha1.Server_metadata": {
         "properties": {
           "annotations": {
@@ -2406,6 +3079,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/AppGroup"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppGroup"
+                }
               }
             },
             "description": "OK"
@@ -2434,6 +3112,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceList"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/ResourceList"
                 }
@@ -2479,6 +3162,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/UIResult"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UIResult"
+                }
               }
             },
             "description": "OK"
@@ -2505,7 +3193,38 @@
         "operationId": "deleteAllInfluxdbEdaNokiaComV1alpha1Clusterexports",
         "parameters": [
           {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "description": "a label selector string to filter the set of CRs deleted based on CR labels",
+            "in": "query",
+            "name": "labelSelector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: a label selector string to filter the set of CRs deleted based on CR labels",
             "in": "query",
             "name": "label-selector",
             "schema": {
@@ -2517,6 +3236,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExportList"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExportList"
                 }
@@ -2578,6 +3302,15 @@
           {
             "description": "a label selector string to filter the results based on CR labels",
             "in": "query",
+            "name": "labelSelector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: a label selector string to filter the results based on CR labels",
+            "in": "query",
             "name": "label-selector",
             "schema": {
               "type": "string"
@@ -2588,6 +3321,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExportList"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExportList"
                 }
@@ -2614,6 +3352,30 @@
       "post": {
         "description": "create a non-namespaced ClusterExport",
         "operationId": "createInfluxdbEdaNokiaComV1alpha1Clusterexports",
+        "parameters": [
+          {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2628,6 +3390,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExport"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExport"
                 }
@@ -2679,6 +3446,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExport_DeletedResources"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExport_DeletedResources"
+                }
               }
             },
             "description": "Returns list of deleted resource entries"
@@ -2706,6 +3478,28 @@
         "operationId": "deleteInfluxdbEdaNokiaComV1alpha1Clusterexports",
         "parameters": [
           {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "description": "name of the ClusterExport to delete",
             "in": "path",
             "name": "name",
@@ -2719,6 +3513,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/Status"
                 }
@@ -2786,6 +3585,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExport"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExport"
+                }
               }
             },
             "description": "OK"
@@ -2810,6 +3614,28 @@
         "operationId": "patchInfluxdbEdaNokiaComV1alpha1Clusterexports",
         "parameters": [
           {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "in": "path",
             "name": "name",
             "required": true,
@@ -2832,6 +3658,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExport"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExport"
                 }
@@ -2859,6 +3690,28 @@
         "operationId": "replaceInfluxdbEdaNokiaComV1alpha1Clusterexports",
         "parameters": [
           {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "in": "path",
             "name": "name",
             "required": true,
@@ -2881,6 +3734,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExport"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterExport"
                 }
@@ -2951,6 +3809,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/ResourceHistory"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceHistory"
+                }
               }
             },
             "description": "Returns the change history of the specified resource"
@@ -2967,6 +3830,69 @@
           }
         },
         "summary": "Get revision history for the specified non-namespaced ClusterExport.",
+        "tags": [
+          "apps"
+        ]
+      }
+    },
+    "/apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_targets": {
+      "get": {
+        "operationId": "getTargetsInfluxdbEdaNokiaComV1alpha1Clusterexports",
+        "parameters": [
+          {
+            "description": "name of the ClusterExport",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "client information for streaming request",
+            "in": "query",
+            "name": "eventclient",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "stream information for streaming request",
+            "in": "query",
+            "name": "stream",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntentTargets"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntentTargets"
+                }
+              }
+            },
+            "description": "Returns the list of intent targets for the specified ClusterExport resource."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Get intent targets for the specified non-namespaced ClusterExport.",
         "tags": [
           "apps"
         ]
@@ -3033,6 +3959,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/ResourceTopology"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceTopology"
+                }
               }
             },
             "description": "Returns the topology of the specified resource"
@@ -3052,6 +3983,78 @@
         "tags": [
           "apps"
         ]
+      },
+      "post": {
+        "operationId": "postTopologyInfluxdbEdaNokiaComV1alpha1Clusterexports",
+        "parameters": [
+          {
+            "description": "name of the ClusterExport to retrieve",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "client information for streaming request",
+            "in": "query",
+            "name": "eventclient",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "stream information for streaming request",
+            "in": "query",
+            "name": "stream",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/K8STopologyRequest"
+              }
+            }
+          },
+          "description": "the details of topology to retrieve",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceTopology"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceTopology"
+                }
+              }
+            },
+            "description": "Returns the topology of the specified resource"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Retrieve the topology for the specified non-namespaced ClusterExport.",
+        "tags": [
+          "apps"
+        ]
       }
     },
     "/apps/influxdb.eda.nokia.com/v1alpha1/clusterservers": {
@@ -3060,7 +4063,38 @@
         "operationId": "deleteAllInfluxdbEdaNokiaComV1alpha1Clusterservers",
         "parameters": [
           {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "description": "a label selector string to filter the set of CRs deleted based on CR labels",
+            "in": "query",
+            "name": "labelSelector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: a label selector string to filter the set of CRs deleted based on CR labels",
             "in": "query",
             "name": "label-selector",
             "schema": {
@@ -3072,6 +4106,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServerList"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServerList"
                 }
@@ -3133,6 +4172,15 @@
           {
             "description": "a label selector string to filter the results based on CR labels",
             "in": "query",
+            "name": "labelSelector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: a label selector string to filter the results based on CR labels",
+            "in": "query",
             "name": "label-selector",
             "schema": {
               "type": "string"
@@ -3143,6 +4191,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServerList"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServerList"
                 }
@@ -3169,6 +4222,30 @@
       "post": {
         "description": "create a non-namespaced ClusterServer",
         "operationId": "createInfluxdbEdaNokiaComV1alpha1Clusterservers",
+        "parameters": [
+          {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3183,6 +4260,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServer"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServer"
                 }
@@ -3234,6 +4316,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServer_DeletedResources"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServer_DeletedResources"
+                }
               }
             },
             "description": "Returns list of deleted resource entries"
@@ -3261,6 +4348,28 @@
         "operationId": "deleteInfluxdbEdaNokiaComV1alpha1Clusterservers",
         "parameters": [
           {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "description": "name of the ClusterServer to delete",
             "in": "path",
             "name": "name",
@@ -3274,6 +4383,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/Status"
                 }
@@ -3341,6 +4455,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServer"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServer"
+                }
               }
             },
             "description": "OK"
@@ -3365,6 +4484,28 @@
         "operationId": "patchInfluxdbEdaNokiaComV1alpha1Clusterservers",
         "parameters": [
           {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "in": "path",
             "name": "name",
             "required": true,
@@ -3387,6 +4528,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServer"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServer"
                 }
@@ -3414,6 +4560,28 @@
         "operationId": "replaceInfluxdbEdaNokiaComV1alpha1Clusterservers",
         "parameters": [
           {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "in": "path",
             "name": "name",
             "required": true,
@@ -3436,6 +4604,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServer"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ClusterServer"
                 }
@@ -3506,6 +4679,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/ResourceHistory"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceHistory"
+                }
               }
             },
             "description": "Returns the change history of the specified resource"
@@ -3522,6 +4700,69 @@
           }
         },
         "summary": "Get revision history for the specified non-namespaced ClusterServer.",
+        "tags": [
+          "apps"
+        ]
+      }
+    },
+    "/apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}/_targets": {
+      "get": {
+        "operationId": "getTargetsInfluxdbEdaNokiaComV1alpha1Clusterservers",
+        "parameters": [
+          {
+            "description": "name of the ClusterServer",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "client information for streaming request",
+            "in": "query",
+            "name": "eventclient",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "stream information for streaming request",
+            "in": "query",
+            "name": "stream",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntentTargets"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntentTargets"
+                }
+              }
+            },
+            "description": "Returns the list of intent targets for the specified ClusterServer resource."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Get intent targets for the specified non-namespaced ClusterServer.",
         "tags": [
           "apps"
         ]
@@ -3588,6 +4829,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/ResourceTopology"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceTopology"
+                }
               }
             },
             "description": "Returns the topology of the specified resource"
@@ -3604,6 +4850,78 @@
           }
         },
         "summary": "Get the topology for the specified non-namespaced ClusterServer.",
+        "tags": [
+          "apps"
+        ]
+      },
+      "post": {
+        "operationId": "postTopologyInfluxdbEdaNokiaComV1alpha1Clusterservers",
+        "parameters": [
+          {
+            "description": "name of the ClusterServer to retrieve",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "client information for streaming request",
+            "in": "query",
+            "name": "eventclient",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "stream information for streaming request",
+            "in": "query",
+            "name": "stream",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/K8STopologyRequest"
+              }
+            }
+          },
+          "description": "the details of topology to retrieve",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceTopology"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceTopology"
+                }
+              }
+            },
+            "description": "Returns the topology of the specified resource"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Retrieve the topology for the specified non-namespaced ClusterServer.",
         "tags": [
           "apps"
         ]
@@ -3649,6 +4967,15 @@
           {
             "description": "a label selector string to filter the results based on CR labels",
             "in": "query",
+            "name": "labelSelector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: a label selector string to filter the results based on CR labels",
+            "in": "query",
             "name": "label-selector",
             "schema": {
               "type": "string"
@@ -3659,6 +4986,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ExportList"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ExportList"
                 }
@@ -3688,18 +5020,49 @@
         "operationId": "deleteAllInfluxdbEdaNokiaComV1alpha1NamespaceExports",
         "parameters": [
           {
-            "description": "the namespace scope from which to perform the delete",
-            "in": "path",
-            "name": "namespace",
-            "required": true,
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
             "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
               "type": "string"
             }
           },
           {
             "description": "a label selector string to filter the set of CRs deleted based on CR labels",
             "in": "query",
+            "name": "labelSelector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: a label selector string to filter the set of CRs deleted based on CR labels",
+            "in": "query",
             "name": "label-selector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "the namespace scope from which to perform the delete",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -3709,6 +5072,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ExportList"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ExportList"
                 }
@@ -3771,6 +5139,15 @@
           {
             "description": "a label selector string to filter the results based on CR labels",
             "in": "query",
+            "name": "labelSelector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: a label selector string to filter the results based on CR labels",
+            "in": "query",
             "name": "label-selector",
             "schema": {
               "type": "string"
@@ -3790,6 +5167,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ExportList"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ExportList"
                 }
@@ -3818,6 +5200,28 @@
         "operationId": "createInfluxdbEdaNokiaComV1alpha1NamespaceExports",
         "parameters": [
           {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "in": "path",
             "name": "namespace",
             "required": true,
@@ -3840,6 +5244,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Export"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Export"
                 }
@@ -3900,6 +5309,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Export_DeletedResources"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Export_DeletedResources"
+                }
               }
             },
             "description": "Returns list of deleted resource entries"
@@ -3927,6 +5341,28 @@
         "operationId": "deleteInfluxdbEdaNokiaComV1alpha1NamespaceExports",
         "parameters": [
           {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "description": "the namespace scope from which to perform the delete",
             "in": "path",
             "name": "namespace",
@@ -3949,6 +5385,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/Status"
                 }
@@ -4025,6 +5466,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Export"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Export"
+                }
               }
             },
             "description": "OK"
@@ -4048,6 +5494,28 @@
         "description": "patch a Export",
         "operationId": "patchInfluxdbEdaNokiaComV1alpha1NamespaceExports",
         "parameters": [
+          {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
           {
             "in": "path",
             "name": "namespace",
@@ -4082,6 +5550,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Export"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Export"
+                }
               }
             },
             "description": "OK"
@@ -4105,6 +5578,28 @@
         "description": "replace a Export",
         "operationId": "replaceInfluxdbEdaNokiaComV1alpha1NamespaceExports",
         "parameters": [
+          {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
           {
             "in": "path",
             "name": "namespace",
@@ -4136,6 +5631,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Export"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Export"
                 }
@@ -4215,6 +5715,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/ResourceHistory"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceHistory"
+                }
               }
             },
             "description": "Returns the change history of the specified resource"
@@ -4236,8 +5741,82 @@
         ]
       }
     },
+    "/apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_targets": {
+      "get": {
+        "operationId": "getTargetsInfluxdbEdaNokiaComV1alpha1NamespaceExports",
+        "parameters": [
+          {
+            "description": "name of the Export",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "client information for streaming request",
+            "in": "query",
+            "name": "eventclient",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "stream information for streaming request",
+            "in": "query",
+            "name": "stream",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the namespace scope in which to operate",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntentTargets"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntentTargets"
+                }
+              }
+            },
+            "description": "Returns the list of intent targets for the specified Export resource."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Get intent targets for the specified namespaced Export.",
+        "tags": [
+          "apps"
+        ]
+      }
+    },
     "/apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_topology": {
       "get": {
+        "deprecated": true,
+        "description": "Get the topology for the specified namespaced Export.  This API is deprecated and the POST\nAPI should be used instead.",
         "operationId": "getTopologyInfluxdbEdaNokiaComV1alpha1NamespaceExports",
         "parameters": [
           {
@@ -4306,6 +5885,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/ResourceTopology"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceTopology"
+                }
               }
             },
             "description": "Returns the topology of the specified resource"
@@ -4321,7 +5905,87 @@
             "description": "Details of an error in response to an API REST request."
           }
         },
-        "summary": "Get the topology for the specified namespaced Export.",
+        "tags": [
+          "apps"
+        ]
+      },
+      "post": {
+        "operationId": "postTopologyInfluxdbEdaNokiaComV1alpha1NamespaceExports",
+        "parameters": [
+          {
+            "description": "name of the Export to retrieve",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the namespace scope from which to retrieve the result",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "client information for streaming request",
+            "in": "query",
+            "name": "eventclient",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "stream information for streaming request",
+            "in": "query",
+            "name": "stream",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/K8STopologyRequest"
+              }
+            }
+          },
+          "description": "the details of topology to retrieve",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceTopology"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceTopology"
+                }
+              }
+            },
+            "description": "Returns the topology of the specified resource"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Retrieve the topology for the specified namespaced Export.",
         "tags": [
           "apps"
         ]
@@ -4332,18 +5996,49 @@
         "operationId": "deleteAllInfluxdbEdaNokiaComV1alpha1NamespaceServers",
         "parameters": [
           {
-            "description": "the namespace scope from which to perform the delete",
-            "in": "path",
-            "name": "namespace",
-            "required": true,
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
             "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
               "type": "string"
             }
           },
           {
             "description": "a label selector string to filter the set of CRs deleted based on CR labels",
             "in": "query",
+            "name": "labelSelector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: a label selector string to filter the set of CRs deleted based on CR labels",
+            "in": "query",
             "name": "label-selector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "the namespace scope from which to perform the delete",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -4353,6 +6048,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ServerList"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ServerList"
                 }
@@ -4415,6 +6115,15 @@
           {
             "description": "a label selector string to filter the results based on CR labels",
             "in": "query",
+            "name": "labelSelector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: a label selector string to filter the results based on CR labels",
+            "in": "query",
             "name": "label-selector",
             "schema": {
               "type": "string"
@@ -4434,6 +6143,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ServerList"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ServerList"
                 }
@@ -4462,6 +6176,28 @@
         "operationId": "createInfluxdbEdaNokiaComV1alpha1NamespaceServers",
         "parameters": [
           {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "in": "path",
             "name": "namespace",
             "required": true,
@@ -4484,6 +6220,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Server"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Server"
                 }
@@ -4544,6 +6285,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Server_DeletedResources"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Server_DeletedResources"
+                }
               }
             },
             "description": "Returns list of deleted resource entries"
@@ -4571,6 +6317,28 @@
         "operationId": "deleteInfluxdbEdaNokiaComV1alpha1NamespaceServers",
         "parameters": [
           {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "description": "the namespace scope from which to perform the delete",
             "in": "path",
             "name": "namespace",
@@ -4593,6 +6361,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/Status"
                 }
@@ -4669,6 +6442,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Server"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Server"
+                }
               }
             },
             "description": "OK"
@@ -4692,6 +6470,28 @@
         "description": "patch a Server",
         "operationId": "patchInfluxdbEdaNokiaComV1alpha1NamespaceServers",
         "parameters": [
+          {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
           {
             "in": "path",
             "name": "namespace",
@@ -4726,6 +6526,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Server"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Server"
+                }
               }
             },
             "description": "OK"
@@ -4749,6 +6554,28 @@
         "description": "replace a Server",
         "operationId": "replaceInfluxdbEdaNokiaComV1alpha1NamespaceServers",
         "parameters": [
+          {
+            "description": "The detail level to keep in the transaction log for the transaction resulting from this request.",
+            "in": "query",
+            "name": "detailLevel",
+            "schema": {
+              "default": "standard",
+              "enum": [
+                "standard",
+                "detailed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
+            "in": "query",
+            "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
           {
             "in": "path",
             "name": "namespace",
@@ -4780,6 +6607,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Server"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.Server"
                 }
@@ -4859,6 +6691,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/ResourceHistory"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceHistory"
+                }
               }
             },
             "description": "Returns the change history of the specified resource"
@@ -4880,8 +6717,82 @@
         ]
       }
     },
+    "/apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_targets": {
+      "get": {
+        "operationId": "getTargetsInfluxdbEdaNokiaComV1alpha1NamespaceServers",
+        "parameters": [
+          {
+            "description": "name of the Server",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "client information for streaming request",
+            "in": "query",
+            "name": "eventclient",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "stream information for streaming request",
+            "in": "query",
+            "name": "stream",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the namespace scope in which to operate",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntentTargets"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntentTargets"
+                }
+              }
+            },
+            "description": "Returns the list of intent targets for the specified Server resource."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Get intent targets for the specified namespaced Server.",
+        "tags": [
+          "apps"
+        ]
+      }
+    },
     "/apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_topology": {
       "get": {
+        "deprecated": true,
+        "description": "Get the topology for the specified namespaced Server.  This API is deprecated and the POST\nAPI should be used instead.",
         "operationId": "getTopologyInfluxdbEdaNokiaComV1alpha1NamespaceServers",
         "parameters": [
           {
@@ -4950,6 +6861,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/ResourceTopology"
                 }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceTopology"
+                }
               }
             },
             "description": "Returns the topology of the specified resource"
@@ -4965,7 +6881,87 @@
             "description": "Details of an error in response to an API REST request."
           }
         },
-        "summary": "Get the topology for the specified namespaced Server.",
+        "tags": [
+          "apps"
+        ]
+      },
+      "post": {
+        "operationId": "postTopologyInfluxdbEdaNokiaComV1alpha1NamespaceServers",
+        "parameters": [
+          {
+            "description": "name of the Server to retrieve",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the namespace scope from which to retrieve the result",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "client information for streaming request",
+            "in": "query",
+            "name": "eventclient",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "stream information for streaming request",
+            "in": "query",
+            "name": "stream",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/K8STopologyRequest"
+              }
+            }
+          },
+          "description": "the details of topology to retrieve",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceTopology"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceTopology"
+                }
+              }
+            },
+            "description": "Returns the topology of the specified resource"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Retrieve the topology for the specified namespaced Server.",
         "tags": [
           "apps"
         ]
@@ -5011,6 +7007,15 @@
           {
             "description": "a label selector string to filter the results based on CR labels",
             "in": "query",
+            "name": "labelSelector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: a label selector string to filter the results based on CR labels",
+            "in": "query",
             "name": "label-selector",
             "schema": {
               "type": "string"
@@ -5021,6 +7026,11 @@
           "200": {
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ServerList"
+                }
+              },
+              "application/yaml": {
                 "schema": {
                   "$ref": "#/components/schemas/com.nokia.eda.influxdb.v1alpha1.ServerList"
                 }

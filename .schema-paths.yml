@@ -3,6 +3,34 @@ app_group:
       path: /apps/influxdb.eda.nokia.com
       method: GET
 
+intent_targets:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_targets
+      method: GET
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}/_targets
+      method: GET
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_targets
+      method: GET
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_targets
+      method: GET
+
+k8_s_topology_request:
+  - create:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_topology
+      method: POST
+  - create:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}/_topology
+      method: POST
+  - create:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_topology
+      method: POST
+  - create:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_topology
+      method: POST
+
 patch:
   - update:
       path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
@@ -171,37 +199,62 @@ com.nokia.eda.influxdb.v1alpha1.server_deleted_resources:
       path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/_deleted
       method: GET
 
-totalPaths: 25
-totalSchemas: 48
-usedSchemas: 19
-unusedSchemas: 29
+totalPaths: 29
+totalSchemas: 75
+usedSchemas: 21
+unusedSchemas: 54
 unusedSchemaList:
   - AppGroupVersion
   - ErrorIndex
   - ErrorItem
   - ErrorResponse
+  - IntentTarget
   - K8SPatchOp
   - OverlayState
   - Resource
   - ResourceHistoryEntry
   - StatusDetails
   - TopoAttrMetadata
+  - TopoAttribute
+  - TopoBoolExpression
+  - TopoBoolLiteral
   - TopoElemMetadata
-  - TopoLinkEndpoint
+  - TopoEndpointBoolExpression
+  - TopoField
+  - TopoFixedBoolExpression
+  - TopoLabelSelector
+  - TopoLiteralStatusOrBadge
+  - TopoLiteralValue
+  - TopoLogicalExpression
   - TopoNodeGrouping
   - TopoOverlayEndpoint
   - TopoOverlayEndpointState
   - TopoOverlayLink
+  - TopoOverlayLinkGroup
+  - TopoOverlayLinkGroupEndpoint
   - TopoOverlayLinkState
   - TopoOverlayNode
+  - TopoOverlayNodeOrGroup
   - TopoOverlayNodeState
+  - TopoOverlayValue
   - TopoSchema
+  - TopoStateFilter
+  - TopoValue
+  - TopoValueExpression
   - Topology
   - com.nokia.eda.influxdb.v1alpha1.ClusterExport_DeletedResourceEntry
+  - com.nokia.eda.influxdb.v1alpha1.ClusterExport_alarms
+  - com.nokia.eda.influxdb.v1alpha1.ClusterExport_deviations
   - com.nokia.eda.influxdb.v1alpha1.ClusterExport_metadata
   - com.nokia.eda.influxdb.v1alpha1.ClusterServer_DeletedResourceEntry
+  - com.nokia.eda.influxdb.v1alpha1.ClusterServer_alarms
+  - com.nokia.eda.influxdb.v1alpha1.ClusterServer_deviations
   - com.nokia.eda.influxdb.v1alpha1.ClusterServer_metadata
   - com.nokia.eda.influxdb.v1alpha1.Export_DeletedResourceEntry
+  - com.nokia.eda.influxdb.v1alpha1.Export_alarms
+  - com.nokia.eda.influxdb.v1alpha1.Export_deviations
   - com.nokia.eda.influxdb.v1alpha1.Export_metadata
   - com.nokia.eda.influxdb.v1alpha1.Server_DeletedResourceEntry
+  - com.nokia.eda.influxdb.v1alpha1.Server_alarms
+  - com.nokia.eda.influxdb.v1alpha1.Server_deviations
   - com.nokia.eda.influxdb.v1alpha1.Server_metadata

@@ -297,7 +297,7 @@ func (r *clusterExportResource) Configure(_ context.Context, req resource.Config
 func (r *clusterExportResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	parts := strings.Split(req.ID, "/")
 	if len(parts) < 1 {
-		resp.Diagnostics.AddError("Invalid ID", fmt.Sprintf("Expected <namespace/name> format, got: %s", req.ID))
+		resp.Diagnostics.AddError("Invalid ID", fmt.Sprintf("Expected format: id = <name>, got: id = %s", req.ID))
 		return
 	}
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("metadata").AtName("name"), parts[0])...)

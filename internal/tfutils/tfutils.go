@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"unicode"
 
@@ -22,8 +23,10 @@ import (
 
 var (
 	visitCounter      int64
+	mapLock           sync.Mutex
+	ignoreCaseVisitor = map[string]bool{}
 	snakeToCamelNames = map[string]string{
-		"label_selector": "label-selector",
+		"labelselector": "label-selector",
 	}
 	camelToSnakeNames = map[string]string{}
 	acronyms          = map[string]string{
@@ -32,10 +35,12 @@ var (
 		"as":    "AS",
 		"asn":   "ASN",
 		"asvpn": "ASVPN",
+		"bfd":   "BFD",
 		"bgp":   "BGP",
 		"dhcp":  "DHCP",
 		"dn":    "DN",
 		"ecmp":  "ECMP",
+		"eler":  "ELER",
 		"evpn":  "EVPN",
 		"fib":   "FIB",
 		"fqdn":  "FQDN",
@@ -50,25 +55,46 @@ var (
 		"mac":   "MAC",
 		"mtu":   "MTU",
 		"nd":    "ND",
+		"ospf":  "OSPF",
 		"pdu":   "PDU",
 		"pfc":   "PFC",
 		"rr":    "RR",
 		"safi":  "SAFI",
+		"spf":   "SPF",
 		"tls":   "TLS",
 		"uri":   "URI",
 		"url":   "URL",
+		"uuid":  "UUID",
 		"vlan":  "VLAN",
 		"vpn":   "VPN",
+		"vrf":   "VRF",
 	}
 	ignoreCaseNames = map[string]bool{
 		"annotations": true,
 		"labels":      true,
 	}
-	ignoreCaseVisitor = map[string]bool{}
 )
 
 func newVisitID(prefix string) string {
 	return prefix + "-" + strconv.FormatInt(atomic.AddInt64(&visitCounter, 1), 10)
+}
+
+func getVisited(key string) bool {
+	mapLock.Lock()
+	defer mapLock.Unlock()
+	return ignoreCaseVisitor[key]
+}
+
+func setVisited(key string, val bool) {
+	mapLock.Lock()
+	defer mapLock.Unlock()
+	ignoreCaseVisitor[key] = val
+}
+
+func clearVisited(key string) {
+	mapLock.Lock()
+	defer mapLock.Unlock()
+	delete(ignoreCaseVisitor, key)
 }
 
 // SnakeToCamel converts a snake_case string to camelCase
@@ -358,9 +384,9 @@ func newValue(ctx context.Context, attrTypeIf attr.Type, val any, visitId string
 		newValMap := make(map[string]attr.Value)
 		oldVisitId := visitId
 		for k, v := range valuesMap {
-			if !ignoreCaseVisitor[visitId] && ignoreCaseNames[k] {
+			if !getVisited(visitId) && ignoreCaseNames[k] {
 				visitId = newVisitID(k)
-				ignoreCaseVisitor[visitId] = true
+				setVisited(visitId, true)
 			}
 			tflog.Trace(ctx, "newValue()::MapType case: Processing valuesMap",
 				map[string]any{"name": k, "visitId": visitId})
@@ -369,7 +395,7 @@ func newValue(ctx context.Context, attrTypeIf attr.Type, val any, visitId string
 			if err != nil {
 				return nil, err
 			}
-			if ignoreCaseVisitor[visitId] {
+			if getVisited(visitId) {
 				newValMap[k] = newVal
 			} else {
 				newValMap[SnakeToCamel(k)] = newVal
@@ -378,7 +404,7 @@ func newValue(ctx context.Context, attrTypeIf attr.Type, val any, visitId string
 				tflog.Trace(ctx, "newValue()::MapType case: Deleting visitId",
 					map[string]any{"name": k, "oldVisitId": oldVisitId, "newVisitId": visitId})
 
-				delete(ignoreCaseVisitor, visitId)
+				clearVisited(visitId)
 				visitId = oldVisitId
 			}
 		}
@@ -414,9 +440,9 @@ func newValue(ctx context.Context, attrTypeIf attr.Type, val any, visitId string
 		oldVisitId := visitId
 		// Iterate over all the attributes of the object
 		for name, aType := range attrType.AttributeTypes() {
-			if !ignoreCaseVisitor[visitId] && ignoreCaseNames[name] {
+			if !getVisited(visitId) && ignoreCaseNames[name] {
 				visitId = newVisitID(name)
-				ignoreCaseVisitor[visitId] = true
+				setVisited(visitId, true)
 			}
 			tflog.Trace(ctx, "newValue()::ObjectType case: Processing attributes",
 				map[string]any{"attrName": name, "visitId": visitId})
@@ -430,7 +456,7 @@ func newValue(ctx context.Context, attrTypeIf attr.Type, val any, visitId string
 				tflog.Trace(ctx, "newValue()::ObjectType case: Deleting visitId",
 					map[string]any{"attrName": name, "oldVisitId": oldVisitId, "newVisitId": visitId})
 
-				delete(ignoreCaseVisitor, visitId)
+				clearVisited(visitId)
 				visitId = oldVisitId
 			}
 		}
@@ -490,9 +516,9 @@ func newValue(ctx context.Context, attrTypeIf attr.Type, val any, visitId string
 		newValMap := make(map[string]attr.Value)
 		oldVisitId := visitId
 		for name, aType := range objVal.AttributeTypes(ctx) {
-			if !ignoreCaseVisitor[visitId] && ignoreCaseNames[name] {
+			if !getVisited(visitId) && ignoreCaseNames[name] {
 				visitId = newVisitID(name)
-				ignoreCaseVisitor[visitId] = true
+				setVisited(visitId, true)
 			}
 			tflog.Trace(ctx, "newValue()::ObjectTypable case: Processing attributes",
 				map[string]any{"attrName": name, "visitId": visitId})
@@ -506,7 +532,7 @@ func newValue(ctx context.Context, attrTypeIf attr.Type, val any, visitId string
 				tflog.Trace(ctx, "newValue()::ObjectTypable case: Deleting visitId",
 					map[string]any{"attrName": name, "oldVisitId": oldVisitId, "newVisitId": visitId})
 
-				delete(ignoreCaseVisitor, visitId)
+				clearVisited(visitId)
 				visitId = oldVisitId
 			}
 		}
@@ -569,15 +595,15 @@ func fromValue(ctx context.Context, attrValIf attr.Value, visitId string) (any, 
 			// If not already ignoring case, and we encounter a new attribute
 			// for which we need to ignore case, generate a new visitId, and
 			// start ignoring case for further visits.
-			if !ignoreCaseVisitor[visitId] && ignoreCaseNames[k] {
+			if !getVisited(visitId) && ignoreCaseNames[k] {
 				visitId = newVisitID(k)
-				ignoreCaseVisitor[visitId] = true
+				setVisited(visitId, true)
 			}
 			val, err := fromValue(ctx, v, visitId)
 			if err != nil {
 				return nil, err
 			}
-			if ignoreCaseVisitor[visitId] {
+			if getVisited(visitId) {
 				value[k] = val
 			} else {
 				value[SnakeToCamel(k)] = val
@@ -585,7 +611,7 @@ func fromValue(ctx context.Context, attrValIf attr.Value, visitId string) (any, 
 			if visitId != oldVisitId {
 				tflog.Trace(ctx, "fromValue()::Deleting visitId in MapValue case",
 					map[string]any{"name": k, "oldVisitId": oldVisitId, "newVisitId": visitId})
-				delete(ignoreCaseVisitor, visitId)
+				clearVisited(visitId)
 				visitId = oldVisitId
 			}
 		}
@@ -611,15 +637,15 @@ func fromValue(ctx context.Context, attrValIf attr.Value, visitId string) (any, 
 			// If not already ignoring case, and we encounter a new attribute
 			// for which we need to ignore case, generate a new visitId, and
 			// start ignoring case for further visits.
-			if !ignoreCaseVisitor[visitId] && ignoreCaseNames[k] {
+			if !getVisited(visitId) && ignoreCaseNames[k] {
 				visitId = newVisitID(k)
-				ignoreCaseVisitor[visitId] = true
+				setVisited(visitId, true)
 			}
 			val, err := fromValue(ctx, v, visitId)
 			if err != nil {
 				return nil, err
 			}
-			if ignoreCaseVisitor[visitId] {
+			if getVisited(visitId) {
 				value[k] = val
 			} else {
 				value[SnakeToCamel(k)] = val
@@ -627,7 +653,7 @@ func fromValue(ctx context.Context, attrValIf attr.Value, visitId string) (any, 
 			if visitId != oldVisitId {
 				tflog.Trace(ctx, "fromValue()::Deleting visitId in ObjectValue case",
 					map[string]any{"attrName": k, "oldVisitId": oldVisitId, "newVisitId": visitId})
-				delete(ignoreCaseVisitor, visitId)
+				clearVisited(visitId)
 				visitId = oldVisitId
 			}
 		}
@@ -841,7 +867,7 @@ func ModelToStringMap(ctx context.Context, model any) (map[string]string, error)
 	body := map[string]string{}
 	typ := reflect.TypeOf(model)
 	val := reflect.ValueOf(model)
-	tflog.Debug(ctx, "ModelToAnyMap()", map[string]any{
+	tflog.Debug(ctx, "ModelToStringMap()", map[string]any{
 		"type": typ.String(),
 		"kind": typ.Kind().String(),
 	})
@@ -856,7 +882,7 @@ func ModelToStringMap(ctx context.Context, model any) (map[string]string, error)
 		field := typ.Elem().Field(i)
 		// Check if the model struct field implements attr.Value
 		if !field.Type.Implements(attrValIf) {
-			tflog.Debug(ctx, fmt.Sprintf("ModelToAnyMap()::%s.%s does not implement attr.Value",
+			tflog.Debug(ctx, fmt.Sprintf("ModelToStringMap()::%s.%s does not implement attr.Value",
 				typ.Elem().String(), field.Name))
 			continue
 		}
@@ -864,7 +890,7 @@ func ModelToStringMap(ctx context.Context, model any) (map[string]string, error)
 		fieldName := SnakeToCamel(field.Tag.Get("tfsdk"))
 		attrVal := val.Elem().Field(i).Interface().(attr.Value)
 
-		tflog.Debug(ctx, "ModelToAnyMap()::Iterating over fields", map[string]any{
+		tflog.Debug(ctx, "ModelToStringMap()::Iterating over fields", map[string]any{
 			"fieldName": fieldName,
 			"fieldType": field.Type.String(),
 			"fieldKind": field.Type.Kind().String(),
@@ -873,15 +899,11 @@ func ModelToStringMap(ctx context.Context, model any) (map[string]string, error)
 		})
 
 		// If the attr.Value is not null and not unknown, and is a string type, use it to build the map
-		if !attrVal.IsNull() && !attrVal.IsUnknown() && attrVal.Type(ctx).Equal(types.StringType) {
-			// Convert the attr.Value to an appropriate Go type
-			anyVal, err := fromValue(ctx, attrVal, "")
-			if err != nil {
-				return nil, err
-			}
-			if strVal, ok := anyVal.(string); ok {
-				body[fieldName] = strVal
-			}
+		if !attrVal.IsNull() &&
+			!attrVal.IsUnknown() &&
+			(attrVal.Type(ctx).Equal(types.StringType) || attrVal.Type(ctx).Equal(types.BoolType)) {
+			// Convert the attr.Value to a Go string type
+			body[fieldName] = StringValue(attrVal)
 		}
 	}
 	return body, nil
