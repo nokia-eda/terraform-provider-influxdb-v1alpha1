@@ -8,7 +8,7 @@ Path,Method,Schema,Model Name,Supported,Datasource,Resource
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/_deleted,GET,com.nokia.eda.influxdb.v1alpha1.ClusterExport_DeletedResources,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name},DELETE,Status,cluster_export,true,false,true
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name},GET,com.nokia.eda.influxdb.v1alpha1.ClusterExport,cluster_export,true,true,true
-/apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name},PATCH,Patch,,false,false,false
+/apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name},PATCH,com.nokia.eda.influxdb.v1alpha1.ClusterExport,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name},PUT,com.nokia.eda.influxdb.v1alpha1.ClusterExport,cluster_export,true,false,true
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_revs,GET,ResourceHistory,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_targets,GET,IntentTargets,,false,false,false
@@ -20,7 +20,7 @@ Path,Method,Schema,Model Name,Supported,Datasource,Resource
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/_deleted,GET,com.nokia.eda.influxdb.v1alpha1.ClusterServer_DeletedResources,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name},DELETE,Status,cluster_server,true,false,true
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name},GET,com.nokia.eda.influxdb.v1alpha1.ClusterServer,cluster_server,true,true,true
-/apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name},PATCH,Patch,,false,false,false
+/apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name},PATCH,com.nokia.eda.influxdb.v1alpha1.ClusterServer,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name},PUT,com.nokia.eda.influxdb.v1alpha1.ClusterServer,cluster_server,true,false,true
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}/_revs,GET,ResourceHistory,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}/_targets,GET,IntentTargets,,false,false,false
@@ -33,7 +33,7 @@ Path,Method,Schema,Model Name,Supported,Datasource,Resource
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/_deleted,GET,com.nokia.eda.influxdb.v1alpha1.Export_DeletedResources,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name},DELETE,Status,export,true,false,true
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name},GET,com.nokia.eda.influxdb.v1alpha1.Export,export,true,true,true
-/apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name},PATCH,Patch,,false,false,false
+/apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name},PATCH,com.nokia.eda.influxdb.v1alpha1.Export,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name},PUT,com.nokia.eda.influxdb.v1alpha1.Export,export,true,false,true
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_revs,GET,ResourceHistory,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_targets,GET,IntentTargets,,false,false,false
@@ -45,7 +45,7 @@ Path,Method,Schema,Model Name,Supported,Datasource,Resource
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/_deleted,GET,com.nokia.eda.influxdb.v1alpha1.Server_DeletedResources,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name},DELETE,Status,server,true,false,true
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name},GET,com.nokia.eda.influxdb.v1alpha1.Server,server,true,true,true
-/apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name},PATCH,Patch,,false,false,false
+/apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name},PATCH,com.nokia.eda.influxdb.v1alpha1.Server,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name},PUT,com.nokia.eda.influxdb.v1alpha1.Server,server,true,false,true
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_revs,GET,ResourceHistory,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_targets,GET,IntentTargets,,false,false,false

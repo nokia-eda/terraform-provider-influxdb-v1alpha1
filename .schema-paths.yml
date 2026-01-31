@@ -31,20 +31,6 @@ k8_s_topology_request:
       path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_topology
       method: POST
 
-patch:
-  - update:
-      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
-      method: PATCH
-  - update:
-      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}
-      method: PATCH
-  - update:
-      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}
-      method: PATCH
-  - update:
-      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}
-      method: PATCH
-
 resource_history:
   - read:
       path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_revs
@@ -107,6 +93,9 @@ com.nokia.eda.influxdb.v1alpha1.cluster_export:
   - update:
       path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
       method: PUT
+  - update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
+      method: PATCH
 
 com.nokia.eda.influxdb.v1alpha1.cluster_export_list:
   - read:
@@ -131,6 +120,9 @@ com.nokia.eda.influxdb.v1alpha1.cluster_server:
   - update:
       path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}
       method: PUT
+  - update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}
+      method: PATCH
 
 com.nokia.eda.influxdb.v1alpha1.cluster_server_list:
   - read:
@@ -155,6 +147,9 @@ com.nokia.eda.influxdb.v1alpha1.export:
   - update:
       path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}
       method: PUT
+  - update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}
+      method: PATCH
 
 com.nokia.eda.influxdb.v1alpha1.export_list:
   - read:
@@ -182,6 +177,9 @@ com.nokia.eda.influxdb.v1alpha1.server:
   - update:
       path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}
       method: PUT
+  - update:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}
+      method: PATCH
 
 com.nokia.eda.influxdb.v1alpha1.server_list:
   - read:
@@ -201,8 +199,8 @@ com.nokia.eda.influxdb.v1alpha1.server_deleted_resources:
 
 totalPaths: 29
 totalSchemas: 75
-usedSchemas: 21
-unusedSchemas: 54
+usedSchemas: 20
+unusedSchemas: 55
 unusedSchemaList:
   - AppGroupVersion
   - ErrorIndex
@@ -211,6 +209,7 @@ unusedSchemaList:
   - IntentTarget
   - K8SPatchOp
   - OverlayState
+  - Patch
   - Resource
   - ResourceHistoryEntry
   - StatusDetails
