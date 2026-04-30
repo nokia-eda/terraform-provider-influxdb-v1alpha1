@@ -12,6 +12,7 @@ Path,Method,Schema,Model Name,Supported,Datasource,Resource
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name},PUT,com.nokia.eda.influxdb.v1alpha1.ClusterExport,cluster_export,true,false,true
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_revs,GET,ResourceHistory,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_targets,GET,IntentTargets,,false,false,false
+/apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_topology,GET,ResourceTopology,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_topology,POST,K8STopologyRequest,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers,DELETE,com.nokia.eda.influxdb.v1alpha1.ClusterServerList,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers,GET,com.nokia.eda.influxdb.v1alpha1.ClusterServerList,cluster_server_list,true,true,false
@@ -23,6 +24,7 @@ Path,Method,Schema,Model Name,Supported,Datasource,Resource
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name},PUT,com.nokia.eda.influxdb.v1alpha1.ClusterServer,cluster_server,true,false,true
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}/_revs,GET,ResourceHistory,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}/_targets,GET,IntentTargets,,false,false,false
+/apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}/_topology,GET,ResourceTopology,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}/_topology,POST,K8STopologyRequest,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/exports,GET,com.nokia.eda.influxdb.v1alpha1.ExportList,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports,DELETE,com.nokia.eda.influxdb.v1alpha1.ExportList,,false,false,false
@@ -35,6 +37,7 @@ Path,Method,Schema,Model Name,Supported,Datasource,Resource
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name},PUT,com.nokia.eda.influxdb.v1alpha1.Export,export,true,false,true
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_revs,GET,ResourceHistory,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_targets,GET,IntentTargets,,false,false,false
+/apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_topology,GET,ResourceTopology,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_topology,POST,K8STopologyRequest,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers,DELETE,com.nokia.eda.influxdb.v1alpha1.ServerList,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers,GET,com.nokia.eda.influxdb.v1alpha1.ServerList,server_list,true,true,false
@@ -46,5 +49,6 @@ Path,Method,Schema,Model Name,Supported,Datasource,Resource
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name},PUT,com.nokia.eda.influxdb.v1alpha1.Server,server,true,false,true
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_revs,GET,ResourceHistory,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_targets,GET,IntentTargets,,false,false,false
+/apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_topology,GET,ResourceTopology,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_topology,POST,K8STopologyRequest,,false,false,false
 /apps/influxdb.eda.nokia.com/v1alpha1/servers,GET,com.nokia.eda.influxdb.v1alpha1.ServerList,,false,false,false

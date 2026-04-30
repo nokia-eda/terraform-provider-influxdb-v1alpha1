@@ -50,6 +50,20 @@ resource_list:
       path: /apps/influxdb.eda.nokia.com/v1alpha1
       method: GET
 
+resource_topology:
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_topology
+      method: GET
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}/_topology
+      method: GET
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_topology
+      method: GET
+  - read:
+      path: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_topology
+      method: GET
+
 status:
   - delete:
       path: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
@@ -184,11 +198,13 @@ com.nokia.eda.influxdb.v1alpha1.server_deleted_resources:
       method: GET
 
 totalPaths: 29
-totalSchemas: 73
-usedSchemas: 19
-unusedSchemas: 54
+totalSchemas: 75
+usedSchemas: 20
+unusedSchemas: 55
 unusedSchemaList:
   - AppGroupVersion
+  - ErrorIndex
+  - ErrorItem
   - ErrorResponse
   - IntentTarget
   - K8SPatchOp
@@ -196,7 +212,6 @@ unusedSchemaList:
   - Patch
   - Resource
   - ResourceHistoryEntry
-  - ResourceTopology
   - StatusDetails
   - TopoAttrMetadata
   - TopoAttribute
