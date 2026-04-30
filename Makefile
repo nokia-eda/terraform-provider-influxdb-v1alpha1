@@ -78,14 +78,17 @@ gen-docs: tfplugindocs ## Generate docs using local tfplugindocs binary.
 install: build ## Install the terraform provider
 	@echo "Installing ${TF_PROVIDER_NAME} dev override"
 	@export TERRAFORMRC=${TERRAFORMRC} KEY=${TF_RC_DEV_KEY} BUILD_PATH="$$(realpath ${BUILD_DIR})"; \
-	[ -f "$${TERRAFORMRC}" ] || { echo "Creating $${TERRAFORMRC}"; echo 'provider_installation {\n  dev_overrides {\n  }\n  direct {}\n}' > "$${TERRAFORMRC}"; }; \
+	[ -f "$${TERRAFORMRC}" ] || { \
+		echo "Creating $${TERRAFORMRC}"; \
+		printf '%s\n' 'provider_installation {' '  dev_overrides {' '  }' '  direct {}' '}' > "$${TERRAFORMRC}"; \
+	}; \
 	if grep -q "$${KEY}" "$${TERRAFORMRC}"; then \
 		echo "Key $${KEY} already present in $${TERRAFORMRC}"; \
 	else \
 		awk -v key="\"$${KEY}\"" -v value="\"$${BUILD_PATH}\"" '\
 		BEGIN { in_block=0 } \
-		/dev_overrides[[:space:]]*{/ { in_block=1 } \
-		in_block && /}/ { print "      " key " = " value; in_block=0 } \
+		/dev_overrides[[:space:]]*[{]/ { in_block=1 } \
+		in_block && /[}]/ { print "      " key " = " value; in_block=0 } \
 		{ print }' "$${TERRAFORMRC}" > "$${TERRAFORMRC}.tmp" && mv "$${TERRAFORMRC}.tmp" "$${TERRAFORMRC}"; \
 		echo "Added key $${KEY} to dev_overrides block in $${TERRAFORMRC} pointing to $${BUILD_PATH}"; \
 	fi

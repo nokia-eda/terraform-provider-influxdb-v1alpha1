@@ -40,6 +40,7 @@ var (
 		"dhcp":  "DHCP",
 		"dn":    "DN",
 		"ecmp":  "ECMP",
+		"eda":   "EDA",
 		"eler":  "ELER",
 		"evpn":  "EVPN",
 		"fib":   "FIB",
@@ -52,6 +53,7 @@ var (
 		"irb":   "IRB",
 		"l2cp":  "L2CP",
 		"ldap":  "LDAP",
+		"ldp":   "LDP",
 		"mac":   "MAC",
 		"mtu":   "MTU",
 		"nd":    "ND",
@@ -62,6 +64,7 @@ var (
 		"safi":  "SAFI",
 		"spf":   "SPF",
 		"tls":   "TLS",
+		"ui":    "UI",
 		"uri":   "URI",
 		"url":   "URL",
 		"uuid":  "UUID",
@@ -814,9 +817,11 @@ func FillMissingValues(ctx context.Context, model any) error {
 				return err
 			}
 			fieldVal.Set(reflect.ValueOf(nullValue))
-		} else {
-			// Check if the attr.Type of the field is an ObjectTypable
-			// and set the appropriate null value in the field
+		} else if !attrVal.IsNull() {
+			// Only recurse into ObjectTypable values that are neither
+			// unknown nor null. A null value has no nested unknowns to
+			// fill, and recursing would produce an empty attribute map
+			// that fails ObjectValue construction.
 			switch attrVal.Type(ctx).(type) {
 			case basetypes.ObjectTypable:
 				tflog.Trace(ctx, "FillMissingValues()::ObjectTypable case",

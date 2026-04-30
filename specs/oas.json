@@ -35,40 +35,19 @@
         },
         "type": "object"
       },
-      "ErrorIndex": {
-        "properties": {
-          "index": {
-            "format": "int64",
-            "type": "integer"
-          }
-        },
-        "title": "Wrapper for index information inside an error.",
-        "type": "object"
-      },
-      "ErrorItem": {
-        "properties": {
-          "error": {
-            "type": "object"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "ErrorResponse": {
         "properties": {
           "causeCollection": {
             "description": "A lower-level set of structured errors.\n\nOnly oneOf `causeWrapped`, `causeSimple`, `causeCollection`, or `causeIndexedCollection` will ever be set.",
             "items": {
-              "$ref": "#/components/schemas/ErrorResponse"
+              "type": "object"
             },
             "type": "array"
           },
           "causeIndexedCollection": {
             "description": "A lower-level set of structured errors.\nEach of these errors MUST have index set.\n\nOnly oneOf `causeWrapped`, `causeSimple`, `causeCollection`, or `causeIndexedCollection` will ever be set.",
             "items": {
-              "$ref": "#/components/schemas/ErrorResponse"
+              "type": "object"
             },
             "type": "array"
           },
@@ -81,43 +60,14 @@
             "type": "string"
           },
           "causeWrapped": {
-            "$ref": "#/components/schemas/ErrorResponse"
-          },
-          "code": {
-            "deprecated": true,
-            "description": "the numeric HTTP error code for the response.\n\nDeprecated: Prefer to check the request's HTTP response code directly.",
-            "format": "int64",
-            "type": "integer"
-          },
-          "details": {
-            "deprecated": true,
-            "description": "The optional details of the error response.\nDeprecated: Replaced by `causeSimple`.",
-            "type": "string"
-          },
-          "dictionary": {
-            "additionalProperties": true,
-            "deprecated": true,
-            "description": "Dictionary/map of associated data/information relevant to the error.\nThe error \"message\" may contain {{name}} escapes that should be substituted\nwith information from this dictionary.\n\nDeprecated: Use \"values\" instead.",
             "type": "object"
           },
           "domain": {
             "description": "The \"domain\" for the error.  If empty, it is an EDA\ncore error.  Alternatively it can be an EDA application\n\"apiVersion\" value (e.g. interfaces.eda.nokia.com/v1alpha1)\nindicating that the error is specific to that application.\nThe domain gives the receiver information that they can use\nto help them interpret the \"type\" field.",
             "type": "string"
           },
-          "errors": {
-            "deprecated": true,
-            "description": "Collection of errors in cases where more than one exists.\nThis needs to be flexible so we can support multiple formats.\nDeprecated: Replaced by `causeCollection` or `causeIndexedCollection` instead.",
-            "items": {
-              "$ref": "#/components/schemas/ErrorItem"
-            },
-            "type": "array"
-          },
           "index": {
-            "$ref": "#/components/schemas/ErrorIndex"
-          },
-          "internal": {
-            "deprecated": true,
-            "description": "Internal error code number.\n\nDeprecated: \"type\" \u0026 \"domain\" should be used instead to uniquely identify this error.",
+            "description": "When processing an array, errors may be generated related to a particular array item.\nIf set, this index indicates to which array item the error applies.",
             "format": "int64",
             "type": "integer"
           },
@@ -142,7 +92,6 @@
           }
         },
         "required": [
-          "internal",
           "message",
           "type"
         ],
@@ -441,7 +390,7 @@
             "$ref": "#/components/schemas/TopoLogicalExpression"
           },
           "not": {
-            "$ref": "#/components/schemas/TopoBoolExpression"
+            "type": "object"
           },
           "value_expression": {
             "$ref": "#/components/schemas/TopoValueExpression"
@@ -568,6 +517,9 @@
             "type": "string"
           },
           "group_key": {
+            "type": "string"
+          },
+          "group_ui_name": {
             "type": "string"
           },
           "tier": {
@@ -1520,7 +1472,7 @@
         "readOnly": true,
         "type": "object",
         "x-eda-nokia-com": {
-          "ui-order-priority": 25,
+          "ui-order-priority": 50,
           "ui-title": "Deviations",
           "ui-title-key": "deviations"
         }
@@ -1966,7 +1918,7 @@
         "readOnly": true,
         "type": "object",
         "x-eda-nokia-com": {
-          "ui-order-priority": 25,
+          "ui-order-priority": 50,
           "ui-title": "Deviations",
           "ui-title-key": "deviations"
         }
@@ -2573,7 +2525,7 @@
         "readOnly": true,
         "type": "object",
         "x-eda-nokia-com": {
-          "ui-order-priority": 25,
+          "ui-order-priority": 50,
           "ui-title": "Deviations",
           "ui-title-key": "deviations"
         }
@@ -3018,7 +2970,7 @@
         "readOnly": true,
         "type": "object",
         "x-eda-nokia-com": {
-          "ui-order-priority": 25,
+          "ui-order-priority": 50,
           "ui-title": "Deviations",
           "ui-title-key": "deviations"
         }
@@ -3336,7 +3288,7 @@
             }
           },
           {
-            "description": "a label selector string to filter the results based on CR labels",
+            "description": "A label selector string to filter the results based on resource labels. If specified multiple times, the union of resources which satisfy a label-selector will be returned.",
             "in": "query",
             "name": "labelSelector",
             "schema": {
@@ -3935,91 +3887,6 @@
       }
     },
     "/apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_topology": {
-      "get": {
-        "operationId": "getTopologyInfluxdbEdaNokiaComV1alpha1Clusterexports",
-        "parameters": [
-          {
-            "description": "name of the ClusterExport to retrieve",
-            "in": "path",
-            "name": "name",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "the type of topology to retrieve",
-            "in": "query",
-            "name": "type",
-            "schema": {
-              "default": "childrenAndParents",
-              "enum": [
-                "children",
-                "parents",
-                "childrenAndParents",
-                "dependentCrs"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "whether to recursively build the topology to include all layers or just a single layer of the topology",
-            "in": "query",
-            "name": "recurse",
-            "schema": {
-              "default": true,
-              "type": "boolean"
-            }
-          },
-          {
-            "description": "client information for streaming request",
-            "in": "query",
-            "name": "eventclient",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "stream information for streaming request",
-            "in": "query",
-            "name": "stream",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceTopology"
-                }
-              },
-              "application/yaml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceTopology"
-                }
-              }
-            },
-            "description": "Returns the topology of the specified resource"
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Details of an error in response to an API REST request."
-          }
-        },
-        "summary": "Get the topology for the specified non-namespaced ClusterExport.",
-        "tags": [
-          "apps"
-        ]
-      },
       "post": {
         "operationId": "postTopologyInfluxdbEdaNokiaComV1alpha1Clusterexports",
         "parameters": [
@@ -4206,7 +4073,7 @@
             }
           },
           {
-            "description": "a label selector string to filter the results based on CR labels",
+            "description": "A label selector string to filter the results based on resource labels. If specified multiple times, the union of resources which satisfy a label-selector will be returned.",
             "in": "query",
             "name": "labelSelector",
             "schema": {
@@ -4805,91 +4672,6 @@
       }
     },
     "/apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}/_topology": {
-      "get": {
-        "operationId": "getTopologyInfluxdbEdaNokiaComV1alpha1Clusterservers",
-        "parameters": [
-          {
-            "description": "name of the ClusterServer to retrieve",
-            "in": "path",
-            "name": "name",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "the type of topology to retrieve",
-            "in": "query",
-            "name": "type",
-            "schema": {
-              "default": "childrenAndParents",
-              "enum": [
-                "children",
-                "parents",
-                "childrenAndParents",
-                "dependentCrs"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "whether to recursively build the topology to include all layers or just a single layer of the topology",
-            "in": "query",
-            "name": "recurse",
-            "schema": {
-              "default": true,
-              "type": "boolean"
-            }
-          },
-          {
-            "description": "client information for streaming request",
-            "in": "query",
-            "name": "eventclient",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "stream information for streaming request",
-            "in": "query",
-            "name": "stream",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceTopology"
-                }
-              },
-              "application/yaml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceTopology"
-                }
-              }
-            },
-            "description": "Returns the topology of the specified resource"
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Details of an error in response to an API REST request."
-          }
-        },
-        "summary": "Get the topology for the specified non-namespaced ClusterServer.",
-        "tags": [
-          "apps"
-        ]
-      },
       "post": {
         "operationId": "postTopologyInfluxdbEdaNokiaComV1alpha1Clusterservers",
         "parameters": [
@@ -5001,7 +4783,7 @@
             }
           },
           {
-            "description": "a label selector string to filter the results based on CR labels",
+            "description": "A label selector string to filter the results based on resource labels. If specified multiple times, the union of resources which satisfy a label-selector will be returned.",
             "in": "query",
             "name": "labelSelector",
             "schema": {
@@ -5173,7 +4955,7 @@
             }
           },
           {
-            "description": "a label selector string to filter the results based on CR labels",
+            "description": "A label selector string to filter the results based on resource labels. If specified multiple times, the union of resources which satisfy a label-selector will be returned.",
             "in": "query",
             "name": "labelSelector",
             "schema": {
@@ -5850,101 +5632,6 @@
       }
     },
     "/apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}/_topology": {
-      "get": {
-        "deprecated": true,
-        "description": "Get the topology for the specified namespaced Export.  This API is deprecated and the POST\nAPI should be used instead.",
-        "operationId": "getTopologyInfluxdbEdaNokiaComV1alpha1NamespaceExports",
-        "parameters": [
-          {
-            "description": "name of the Export to retrieve",
-            "in": "path",
-            "name": "name",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "the namespace scope from which to retrieve the result",
-            "in": "path",
-            "name": "namespace",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "the type of topology to retrieve",
-            "in": "query",
-            "name": "type",
-            "schema": {
-              "default": "childrenAndParents",
-              "enum": [
-                "children",
-                "parents",
-                "childrenAndParents",
-                "dependentCrs"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "whether to recursively build the topology to include all layers or just a single layer of the topology",
-            "in": "query",
-            "name": "recurse",
-            "schema": {
-              "default": true,
-              "type": "boolean"
-            }
-          },
-          {
-            "description": "client information for streaming request",
-            "in": "query",
-            "name": "eventclient",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "stream information for streaming request",
-            "in": "query",
-            "name": "stream",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceTopology"
-                }
-              },
-              "application/yaml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceTopology"
-                }
-              }
-            },
-            "description": "Returns the topology of the specified resource"
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Details of an error in response to an API REST request."
-          }
-        },
-        "tags": [
-          "apps"
-        ]
-      },
       "post": {
         "operationId": "postTopologyInfluxdbEdaNokiaComV1alpha1NamespaceExports",
         "parameters": [
@@ -6149,7 +5836,7 @@
             }
           },
           {
-            "description": "a label selector string to filter the results based on CR labels",
+            "description": "A label selector string to filter the results based on resource labels. If specified multiple times, the union of resources which satisfy a label-selector will be returned.",
             "in": "query",
             "name": "labelSelector",
             "schema": {
@@ -6826,101 +6513,6 @@
       }
     },
     "/apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}/_topology": {
-      "get": {
-        "deprecated": true,
-        "description": "Get the topology for the specified namespaced Server.  This API is deprecated and the POST\nAPI should be used instead.",
-        "operationId": "getTopologyInfluxdbEdaNokiaComV1alpha1NamespaceServers",
-        "parameters": [
-          {
-            "description": "name of the Server to retrieve",
-            "in": "path",
-            "name": "name",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "the namespace scope from which to retrieve the result",
-            "in": "path",
-            "name": "namespace",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "the type of topology to retrieve",
-            "in": "query",
-            "name": "type",
-            "schema": {
-              "default": "childrenAndParents",
-              "enum": [
-                "children",
-                "parents",
-                "childrenAndParents",
-                "dependentCrs"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "whether to recursively build the topology to include all layers or just a single layer of the topology",
-            "in": "query",
-            "name": "recurse",
-            "schema": {
-              "default": true,
-              "type": "boolean"
-            }
-          },
-          {
-            "description": "client information for streaming request",
-            "in": "query",
-            "name": "eventclient",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "stream information for streaming request",
-            "in": "query",
-            "name": "stream",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceTopology"
-                }
-              },
-              "application/yaml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceTopology"
-                }
-              }
-            },
-            "description": "Returns the topology of the specified resource"
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Details of an error in response to an API REST request."
-          }
-        },
-        "tags": [
-          "apps"
-        ]
-      },
       "post": {
         "operationId": "postTopologyInfluxdbEdaNokiaComV1alpha1NamespaceServers",
         "parameters": [
@@ -7041,7 +6633,7 @@
             }
           },
           {
-            "description": "a label selector string to filter the results based on CR labels",
+            "description": "A label selector string to filter the results based on resource labels. If specified multiple times, the union of resources which satisfy a label-selector will be returned.",
             "in": "query",
             "name": "labelSelector",
             "schema": {

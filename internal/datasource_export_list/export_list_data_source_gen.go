@@ -370,8 +370,8 @@ func ExportListDataSourceSchema(ctx context.Context) schema.Schema {
 			"label_selector": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				Description:         "a label selector string to filter the results based on CR labels",
-				MarkdownDescription: "a label selector string to filter the results based on CR labels",
+				Description:         "A label selector string to filter the results based on resource labels. If specified multiple times, the union of resources which satisfy a label-selector will be returned.",
+				MarkdownDescription: "A label selector string to filter the results based on resource labels. If specified multiple times, the union of resources which satisfy a label-selector will be returned.",
 			},
 			"labelselector": schema.StringAttribute{
 				Optional:            true,
