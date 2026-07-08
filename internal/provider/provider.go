@@ -14,7 +14,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/nokia/eda/apps/terraform-provider-influxdb/internal/eda/apiclient"
 	"github.com/nokia/eda/apps/terraform-provider-influxdb/internal/eda/utils"
-	"github.com/nokia/eda/apps/terraform-provider-influxdb/internal/tfutils"
 )
 
 const (
@@ -112,6 +111,7 @@ func (p *influxdbProvider) Schema(ctx context.Context, req provider.SchemaReques
 			"client_secret": schema.StringAttribute{
 				Description: "EDA Client Secret",
 				Optional:    true,
+				Sensitive:   true,
 			},
 			"username": schema.StringAttribute{
 				Description: "EDA Username",
@@ -152,18 +152,28 @@ func (p *influxdbProvider) Configure(ctx context.Context, req provider.Configure
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
-	anyData, err := tfutils.ModelToAnyMap(ctx, &data)
-	if err != nil {
-		resp.Diagnostics.AddError("Error reading provider config", err.Error())
-		return
+	config := apiclient.Config{
+		BaseURL:         data.BaseURL.ValueString(),
+		KcRealm:         data.KcRealm.ValueString(),
+		KcClientID:      data.KcClientID.ValueString(),
+		KcUsername:      data.KcUsername.ValueString(),
+		KcPassword:      data.KcPassword.ValueString(),
+		EdaRealm:        data.EdaRealm.ValueString(),
+		EdaClientID:     data.EdaClientID.ValueString(),
+		EdaClientSecret: data.EdaClientSecret.ValueString(),
+		EdaUsername:     data.EdaUsername.ValueString(),
+		EdaPassword:     data.EdaPassword.ValueString(),
+		TlsSkipVerify:   data.TlsSkipVerify.ValueBool(),
+		RestDebug:       data.RestDebug.ValueBool(),
+		RestRetries:     int(data.RestRetries.ValueInt64()),
 	}
-
-	config := apiclient.Config{}
-	err = utils.Convert(anyData, &config)
-	if err != nil {
-		resp.Diagnostics.AddError("Config data conversion error", err.Error())
-		return
+	restTimeout, err := time.ParseDuration(data.RestTimeout.ValueString())
+	if err == nil {
+		config.RestTimeout = restTimeout
+	}
+	restRetryInterval, err := time.ParseDuration(data.RestRetryInterval.ValueString())
+	if err == nil {
+		config.RestRetryInterval = restRetryInterval
 	}
 
 	validate(&resp.Diagnostics, &config)

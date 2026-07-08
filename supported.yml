@@ -1,0 +1,63 @@
+datasources:
+  - model_name: app_group
+    oas_endpoint: /apps/influxdb.eda.nokia.com
+    oas_schema: AppGroup
+  - model_name: resource_list
+    oas_endpoint: /apps/influxdb.eda.nokia.com/v1alpha1
+    oas_schema: ResourceList
+  - model_name: cluster_export_list
+    oas_endpoint: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports
+    oas_schema: com.nokia.eda.influxdb.v1alpha1.ClusterExportList
+  - model_name: cluster_export
+    oas_endpoint: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}
+    oas_schema: com.nokia.eda.influxdb.v1alpha1.ClusterExport
+  - model_name: cluster_server_list
+    oas_endpoint: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers
+    oas_schema: com.nokia.eda.influxdb.v1alpha1.ClusterServerList
+  - model_name: cluster_server
+    oas_endpoint: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/{name}
+    oas_schema: com.nokia.eda.influxdb.v1alpha1.ClusterServer
+  - model_name: export_list
+    oas_endpoint: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports
+    oas_schema: com.nokia.eda.influxdb.v1alpha1.ExportList
+  - model_name: export
+    oas_endpoint: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/{name}
+    oas_schema: com.nokia.eda.influxdb.v1alpha1.Export
+  - model_name: server_list
+    oas_endpoint: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers
+    oas_schema: com.nokia.eda.influxdb.v1alpha1.ServerList
+  - model_name: server
+    oas_endpoint: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/{name}
+    oas_schema: com.nokia.eda.influxdb.v1alpha1.Server
+
+resources:
+  - model_name: cluster_export
+    oas_endpoint: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports
+    oas_schema: com.nokia.eda.influxdb.v1alpha1.ClusterExport
+  - model_name: cluster_server
+    oas_endpoint: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers
+    oas_schema: com.nokia.eda.influxdb.v1alpha1.ClusterServer
+  - model_name: export
+    oas_endpoint: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports
+    oas_schema: com.nokia.eda.influxdb.v1alpha1.Export
+  - model_name: server
+    oas_endpoint: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers
+    oas_schema: com.nokia.eda.influxdb.v1alpha1.Server
+
+qualified:
+  datasources:
+    - oas_schema: IntentTargets
+      get: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_targets
+    - oas_schema: ResourceHistory
+      get: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/{name}/_revs
+    - oas_schema: UIResult
+      get: /apps/influxdb.eda.nokia.com/v1alpha1/_ui/{pathname}
+    - oas_schema: com.nokia.eda.influxdb.v1alpha1.ClusterExport_DeletedResources
+      get: /apps/influxdb.eda.nokia.com/v1alpha1/clusterexports/_deleted
+    - oas_schema: com.nokia.eda.influxdb.v1alpha1.ClusterServer_DeletedResources
+      get: /apps/influxdb.eda.nokia.com/v1alpha1/clusterservers/_deleted
+    - oas_schema: com.nokia.eda.influxdb.v1alpha1.Export_DeletedResources
+      get: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/exports/_deleted
+    - oas_schema: com.nokia.eda.influxdb.v1alpha1.Server_DeletedResources
+      get: /apps/influxdb.eda.nokia.com/v1alpha1/namespaces/{namespace}/servers/_deleted
+  resources:

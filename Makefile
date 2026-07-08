@@ -3,7 +3,7 @@ PROVIDER_NAME := influxdb-v1alpha1
 TF_PROVIDER_NAME := terraform-provider-${PROVIDER_NAME}
 TERRAFORMRC := "${HOME}/.terraformrc"
 TF_RC_DEV_KEY := "nokia-eda/${PROVIDER_NAME}"
-TFPLUGINDOCS_VERSION := v0.22.0
+TFPLUGINDOCS_VERSION := v0.25.0
 
 ##@ Dependencies
 

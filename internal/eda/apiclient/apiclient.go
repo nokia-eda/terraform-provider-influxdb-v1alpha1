@@ -77,18 +77,18 @@ type Config struct {
 
 func (cfg *Config) String() string {
 	sb := strings.Builder{}
-	sb.WriteString(fmt.Sprintf("%s: %s, ", "baseURL", cfg.BaseURL))
-	sb.WriteString(fmt.Sprintf("%s: %s, ", "kcUsername", cfg.KcUsername))
-	sb.WriteString(fmt.Sprintf("%s: %s, ", "kcRealm", cfg.KcRealm))
-	sb.WriteString(fmt.Sprintf("%s: %s, ", "kcClientId", cfg.KcClientID))
-	sb.WriteString(fmt.Sprintf("%s: %s, ", "edaUsername", cfg.EdaUsername))
-	sb.WriteString(fmt.Sprintf("%s: %s, ", "edaRealm", cfg.EdaRealm))
-	sb.WriteString(fmt.Sprintf("%s: %s, ", "edaClientId", cfg.EdaClientID))
-	sb.WriteString(fmt.Sprintf("%s: %t, ", "tlsSkipVerify", cfg.TlsSkipVerify))
-	sb.WriteString(fmt.Sprintf("%s: %t, ", "restDebug", cfg.RestDebug))
-	sb.WriteString(fmt.Sprintf("%s: %s, ", "restTimeout", cfg.RestTimeout))
-	sb.WriteString(fmt.Sprintf("%s: %d, ", "restRetries", cfg.RestRetries))
-	sb.WriteString(fmt.Sprintf("%s: %s", "restRetryInterval", cfg.RestRetryInterval))
+	fmt.Fprintf(&sb, "%s: %s, ", "baseURL", cfg.BaseURL)
+	fmt.Fprintf(&sb, "%s: %s, ", "kcUsername", cfg.KcUsername)
+	fmt.Fprintf(&sb, "%s: %s, ", "kcRealm", cfg.KcRealm)
+	fmt.Fprintf(&sb, "%s: %s, ", "kcClientId", cfg.KcClientID)
+	fmt.Fprintf(&sb, "%s: %s, ", "edaUsername", cfg.EdaUsername)
+	fmt.Fprintf(&sb, "%s: %s, ", "edaRealm", cfg.EdaRealm)
+	fmt.Fprintf(&sb, "%s: %s, ", "edaClientId", cfg.EdaClientID)
+	fmt.Fprintf(&sb, "%s: %t, ", "tlsSkipVerify", cfg.TlsSkipVerify)
+	fmt.Fprintf(&sb, "%s: %t, ", "restDebug", cfg.RestDebug)
+	fmt.Fprintf(&sb, "%s: %s, ", "restTimeout", cfg.RestTimeout)
+	fmt.Fprintf(&sb, "%s: %d, ", "restRetries", cfg.RestRetries)
+	fmt.Fprintf(&sb, "%s: %s", "restRetryInterval", cfg.RestRetryInterval)
 	return sb.String()
 }
 
@@ -134,7 +134,7 @@ func (c *EdaApiClient) getEdaAccessToken() (string, error) {
 
 // Attempt login with retries and exponential backoff
 func (c *EdaApiClient) login(authUrl string, oauthBody map[string]string, grnt *grant) error {
-	tflog.Trace(c.logCtx, "login()", map[string]any{"authUrl": authUrl, "oauthBody": fmt.Sprintf("%v", oauthBody)})
+	tflog.Trace(c.logCtx, "login()", map[string]any{"authUrl": authUrl})
 	var resp *resty.Response
 	var err error
 	maxRetries := 5
@@ -146,7 +146,7 @@ func (c *EdaApiClient) login(authUrl string, oauthBody map[string]string, grnt *
 			timestamp := time.Now()
 			grnt.timestamp = &timestamp
 			tflog.Info(c.logCtx, "login()", map[string]any{"authUrl": authUrl, "status": resp.Status(),
-				"resp": resp.String(), "timeTaken": resp.Time().String()})
+				"timeTaken": resp.Time().String()})
 			return nil
 		}
 
@@ -181,10 +181,10 @@ func (c *EdaApiClient) getAccessToken(cred *clientCredentials, grnt *grant) (str
 		expired = elapsed > grnt.ExpiresInSecs
 	}
 	tflog.Trace(c.logCtx, "getAccessToken()", map[string]any{"authUrl": cred.authUrl,
-		"grantExpired": expired, "accessToken": grnt.AccessToken, "refreshToken": grnt.RefreshToken})
+		"grantExpired": expired})
 
 	if !expired && grnt.AccessToken != "" {
-		tflog.Trace(c.logCtx, "getAccessToken()", map[string]any{"authUrl": cred.authUrl, "existingToken": grnt.AccessToken})
+		tflog.Trace(c.logCtx, "getAccessToken()", map[string]any{"authUrl": cred.authUrl, "tokenCached": true})
 		return grnt.AccessToken, nil
 	}
 	var err error
@@ -199,7 +199,7 @@ func (c *EdaApiClient) getAccessToken(cred *clientCredentials, grnt *grant) (str
 	if grnt.AccessToken == "" {
 		return "", fmt.Errorf("access token is empty")
 	}
-	tflog.Trace(c.logCtx, "getAccessToken()", map[string]any{"authUrl": cred.authUrl, "newToken": grnt.AccessToken})
+	tflog.Trace(c.logCtx, "getAccessToken()", map[string]any{"authUrl": cred.authUrl, "tokenRefreshed": true})
 	return grnt.AccessToken, nil
 }
 
@@ -238,7 +238,7 @@ func (c *EdaApiClient) getClientSecret(id string) (string, error) {
 		return "", err
 	}
 	tflog.Info(c.logCtx, "getClientSecret()", map[string]any{"url": CLIENT_URL, "status": resp.Status(),
-		"resp": resp.String(), "timeTaken": resp.Time().String()})
+		"timeTaken": resp.Time().String()})
 
 	if len(result) == 0 {
 		return "", fmt.Errorf("client not found: %s", id)
@@ -247,7 +247,6 @@ func (c *EdaApiClient) getClientSecret(id string) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("client secret not found for client: %s", id)
 	}
-	tflog.Trace(c.logCtx, "getClientSecret()", map[string]any{"secret": secret})
 	return secret.(string), nil
 }
 

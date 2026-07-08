@@ -17,7 +17,7 @@ For support, please join [Nokia EDA Discord](https://eda.dev/discord).
 
 - `base_url` (String) Base URL
 - `client_id` (String) EDA Client ID
-- `client_secret` (String) EDA Client Secret
+- `client_secret` (String, Sensitive) EDA Client Secret
 - `keycloak_admin_client_id` (String) Keycloak Client ID
 - `keycloak_admin_password` (String, Sensitive) Keycloak Password
 - `keycloak_admin_username` (String) Keycloak Username
