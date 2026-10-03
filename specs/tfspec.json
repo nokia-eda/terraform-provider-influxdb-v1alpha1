@@ -184,36 +184,36 @@
                     {
                         "name": "spec",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed",
                             "attributes": [
                                 {
                                     "name": "description",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "A short description of the export rules."
                                     }
                                 },
                                 {
                                     "name": "enabled",
                                     "bool": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "Specifies if the Export rules are enabled or not."
                                     }
                                 },
                                 {
                                     "name": "exports",
                                     "single_nested": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "attributes": [
                                             {
                                                 "name": "alarms_1",
                                                 "single_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed",
                                                     "attributes": [
                                                         {
                                                             "name": "exclude",
                                                             "list": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "element_type": {
                                                                     "string": {}
                                                                 },
@@ -223,7 +223,7 @@
                                                         {
                                                             "name": "include",
                                                             "list": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "element_type": {
                                                                     "string": {}
                                                                 },
@@ -233,7 +233,7 @@
                                                         {
                                                             "name": "namespaces",
                                                             "list": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "element_type": {
                                                                     "string": {}
                                                                 },
@@ -247,31 +247,31 @@
                                             {
                                                 "name": "query",
                                                 "list_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed",
                                                     "nested_object": {
                                                         "attributes": [
                                                             {
                                                                 "name": "customization",
                                                                 "single_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "attributes": [
                                                                         {
                                                                             "name": "fields",
                                                                             "list_nested": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "nested_object": {
                                                                                     "attributes": [
                                                                                         {
                                                                                             "name": "match",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "description": "A regular expression to be matched against the measurement name"
                                                                                             }
                                                                                         },
                                                                                         {
                                                                                             "name": "replacement",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "description": "A regular expression replacement to be applied to the measurement name"
                                                                                             }
                                                                                         }
@@ -283,19 +283,19 @@
                                                                         {
                                                                             "name": "measurement",
                                                                             "single_nested": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "attributes": [
                                                                                     {
                                                                                         "name": "match",
                                                                                         "string": {
-                                                                                            "computed_optional_required": "optional",
+                                                                                            "computed_optional_required": "computed",
                                                                                             "description": "A regular expression to be matched against the measurement name"
                                                                                         }
                                                                                     },
                                                                                     {
                                                                                         "name": "replacement",
                                                                                         "string": {
-                                                                                            "computed_optional_required": "optional",
+                                                                                            "computed_optional_required": "computed",
                                                                                             "description": "A regular expression replacement to be applied to the measurement name"
                                                                                         }
                                                                                     }
@@ -306,27 +306,27 @@
                                                                         {
                                                                             "name": "tags",
                                                                             "list_nested": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "nested_object": {
                                                                                     "attributes": [
                                                                                         {
                                                                                             "name": "delimiter",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "description": "Delimiter to join the tag name and value"
                                                                                             }
                                                                                         },
                                                                                         {
                                                                                             "name": "match",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "description": "A regular expression to be matched against tag_name + delimiter + tag_value"
                                                                                             }
                                                                                         },
                                                                                         {
                                                                                             "name": "replacement",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "description": "A regular expression replacement to be applied to tag_name + delimiter + tag_value"
                                                                                             }
                                                                                         }
@@ -342,7 +342,7 @@
                                                             {
                                                                 "name": "fields",
                                                                 "list": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "element_type": {
                                                                         "string": {}
                                                                     },
@@ -352,28 +352,28 @@
                                                             {
                                                                 "name": "mode",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "Export mode."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "path",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "The EDB path to export, in the format '.node.srl.interface'.\nShould NOT include the namespace path element."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "period",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "Export period. Applicable when mode is set to 'periodic' or 'both'."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "where",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "A where clause to use for the query, e.g. 'oper-state = down'. You can omit enclosing parentheses."
                                                                 }
                                                             }
@@ -385,34 +385,34 @@
                                             {
                                                 "name": "resource",
                                                 "list_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed",
                                                     "nested_object": {
                                                         "attributes": [
                                                             {
                                                                 "name": "group",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "The resource group."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "kind",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "The resource kind."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "name",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "The resource name to export. Omit to export all resources based on their GVK"
                                                                 }
                                                             },
                                                             {
                                                                 "name": "namespaces",
                                                                 "list": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "element_type": {
                                                                         "string": {}
                                                                     },
@@ -422,7 +422,7 @@
                                                             {
                                                                 "name": "version",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "The resource version."
                                                                 }
                                                             }
@@ -438,20 +438,20 @@
                                 {
                                     "name": "servers",
                                     "list_nested": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "nested_object": {
                                             "attributes": [
                                                 {
                                                     "name": "bucket",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "InfluxDB Bucket Name."
                                                     }
                                                 },
                                                 {
                                                     "name": "name",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "InfluxDB server Name."
                                                     }
                                                 }
@@ -617,36 +617,36 @@
                                     {
                                         "name": "spec",
                                         "single_nested": {
-                                            "computed_optional_required": "optional",
+                                            "computed_optional_required": "computed",
                                             "attributes": [
                                                 {
                                                     "name": "description",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "A short description of the export rules."
                                                     }
                                                 },
                                                 {
                                                     "name": "enabled",
                                                     "bool": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "Specifies if the Export rules are enabled or not."
                                                     }
                                                 },
                                                 {
                                                     "name": "exports",
                                                     "single_nested": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "attributes": [
                                                             {
                                                                 "name": "alarms_1",
                                                                 "single_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "attributes": [
                                                                         {
                                                                             "name": "exclude",
                                                                             "list": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "element_type": {
                                                                                     "string": {}
                                                                                 },
@@ -656,7 +656,7 @@
                                                                         {
                                                                             "name": "include",
                                                                             "list": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "element_type": {
                                                                                     "string": {}
                                                                                 },
@@ -666,7 +666,7 @@
                                                                         {
                                                                             "name": "namespaces",
                                                                             "list": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "element_type": {
                                                                                     "string": {}
                                                                                 },
@@ -680,31 +680,31 @@
                                                             {
                                                                 "name": "query",
                                                                 "list_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "nested_object": {
                                                                         "attributes": [
                                                                             {
                                                                                 "name": "customization",
                                                                                 "single_nested": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "attributes": [
                                                                                         {
                                                                                             "name": "fields",
                                                                                             "list_nested": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "nested_object": {
                                                                                                     "attributes": [
                                                                                                         {
                                                                                                             "name": "match",
                                                                                                             "string": {
-                                                                                                                "computed_optional_required": "optional",
+                                                                                                                "computed_optional_required": "computed",
                                                                                                                 "description": "A regular expression to be matched against the measurement name"
                                                                                                             }
                                                                                                         },
                                                                                                         {
                                                                                                             "name": "replacement",
                                                                                                             "string": {
-                                                                                                                "computed_optional_required": "optional",
+                                                                                                                "computed_optional_required": "computed",
                                                                                                                 "description": "A regular expression replacement to be applied to the measurement name"
                                                                                                             }
                                                                                                         }
@@ -716,19 +716,19 @@
                                                                                         {
                                                                                             "name": "measurement",
                                                                                             "single_nested": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "attributes": [
                                                                                                     {
                                                                                                         "name": "match",
                                                                                                         "string": {
-                                                                                                            "computed_optional_required": "optional",
+                                                                                                            "computed_optional_required": "computed",
                                                                                                             "description": "A regular expression to be matched against the measurement name"
                                                                                                         }
                                                                                                     },
                                                                                                     {
                                                                                                         "name": "replacement",
                                                                                                         "string": {
-                                                                                                            "computed_optional_required": "optional",
+                                                                                                            "computed_optional_required": "computed",
                                                                                                             "description": "A regular expression replacement to be applied to the measurement name"
                                                                                                         }
                                                                                                     }
@@ -739,27 +739,27 @@
                                                                                         {
                                                                                             "name": "tags",
                                                                                             "list_nested": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "nested_object": {
                                                                                                     "attributes": [
                                                                                                         {
                                                                                                             "name": "delimiter",
                                                                                                             "string": {
-                                                                                                                "computed_optional_required": "optional",
+                                                                                                                "computed_optional_required": "computed",
                                                                                                                 "description": "Delimiter to join the tag name and value"
                                                                                                             }
                                                                                                         },
                                                                                                         {
                                                                                                             "name": "match",
                                                                                                             "string": {
-                                                                                                                "computed_optional_required": "optional",
+                                                                                                                "computed_optional_required": "computed",
                                                                                                                 "description": "A regular expression to be matched against tag_name + delimiter + tag_value"
                                                                                                             }
                                                                                                         },
                                                                                                         {
                                                                                                             "name": "replacement",
                                                                                                             "string": {
-                                                                                                                "computed_optional_required": "optional",
+                                                                                                                "computed_optional_required": "computed",
                                                                                                                 "description": "A regular expression replacement to be applied to tag_name + delimiter + tag_value"
                                                                                                             }
                                                                                                         }
@@ -775,7 +775,7 @@
                                                                             {
                                                                                 "name": "fields",
                                                                                 "list": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "element_type": {
                                                                                         "string": {}
                                                                                     },
@@ -785,28 +785,28 @@
                                                                             {
                                                                                 "name": "mode",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "Export mode."
                                                                                 }
                                                                             },
                                                                             {
                                                                                 "name": "path",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "The EDB path to export, in the format '.node.srl.interface'.\nShould NOT include the namespace path element."
                                                                                 }
                                                                             },
                                                                             {
                                                                                 "name": "period",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "Export period. Applicable when mode is set to 'periodic' or 'both'."
                                                                                 }
                                                                             },
                                                                             {
                                                                                 "name": "where",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "A where clause to use for the query, e.g. 'oper-state = down'. You can omit enclosing parentheses."
                                                                                 }
                                                                             }
@@ -818,34 +818,34 @@
                                                             {
                                                                 "name": "resource",
                                                                 "list_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "nested_object": {
                                                                         "attributes": [
                                                                             {
                                                                                 "name": "group",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "The resource group."
                                                                                 }
                                                                             },
                                                                             {
                                                                                 "name": "kind",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "The resource kind."
                                                                                 }
                                                                             },
                                                                             {
                                                                                 "name": "name",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "The resource name to export. Omit to export all resources based on their GVK"
                                                                                 }
                                                                             },
                                                                             {
                                                                                 "name": "namespaces",
                                                                                 "list": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "element_type": {
                                                                                         "string": {}
                                                                                     },
@@ -855,7 +855,7 @@
                                                                             {
                                                                                 "name": "version",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "The resource version."
                                                                                 }
                                                                             }
@@ -871,20 +871,20 @@
                                                 {
                                                     "name": "servers",
                                                     "list_nested": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "nested_object": {
                                                             "attributes": [
                                                                 {
                                                                     "name": "bucket",
                                                                     "string": {
-                                                                        "computed_optional_required": "optional",
+                                                                        "computed_optional_required": "computed",
                                                                         "description": "InfluxDB Bucket Name."
                                                                     }
                                                                 },
                                                                 {
                                                                     "name": "name",
                                                                     "string": {
-                                                                        "computed_optional_required": "optional",
+                                                                        "computed_optional_required": "computed",
                                                                         "description": "InfluxDB server Name."
                                                                     }
                                                                 }
@@ -1034,78 +1034,78 @@
                     {
                         "name": "spec",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed",
                             "attributes": [
                                 {
                                     "name": "batch_size",
                                     "int64": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "Sets number of points sent in single request."
                                     }
                                 },
                                 {
                                     "name": "credentials_secret",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "Secret containing InfluxDB credentials.\nthe secret must include a username and password keys or a token key."
                                     }
                                 },
                                 {
                                     "name": "flush_timer",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "Sets the write buffer flush timer."
                                     }
                                 },
                                 {
                                     "name": "org",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "InfluxDB Organization"
                                     }
                                 },
                                 {
                                     "name": "timestamp_precision",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "Sets the timestamp precision to use in writes for timestamp."
                                     }
                                 },
                                 {
                                     "name": "tls",
                                     "single_nested": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "attributes": [
                                             {
                                                 "name": "from_files",
                                                 "single_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed",
                                                     "attributes": [
                                                         {
                                                             "name": "ca_file",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "description": "Path to a certificate authority file."
                                                             }
                                                         },
                                                         {
                                                             "name": "cert_file",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "description": "The client certificate file location."
                                                             }
                                                         },
                                                         {
                                                             "name": "key_file",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "description": "The client private key location."
                                                             }
                                                         },
                                                         {
                                                             "name": "skip_verify",
                                                             "bool": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "description": "If true the client will not verify the server's certificate."
                                                             }
                                                         }
@@ -1116,12 +1116,12 @@
                                             {
                                                 "name": "from_secret",
                                                 "single_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed",
                                                     "attributes": [
                                                         {
                                                             "name": "name",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "description": "Secret name containing a ca.crt, a tls.crt and a tls.key keys."
                                                             }
                                                         }
@@ -1136,14 +1136,14 @@
                                 {
                                     "name": "url",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "InfluxDB server URL"
                                     }
                                 },
                                 {
                                     "name": "use_gzip",
                                     "bool": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "When true, the exporter uses GZIP compression in write requests."
                                     }
                                 }
@@ -1327,78 +1327,78 @@
                                     {
                                         "name": "spec",
                                         "single_nested": {
-                                            "computed_optional_required": "optional",
+                                            "computed_optional_required": "computed",
                                             "attributes": [
                                                 {
                                                     "name": "batch_size",
                                                     "int64": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "Sets number of points sent in single request."
                                                     }
                                                 },
                                                 {
                                                     "name": "credentials_secret",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "Secret containing InfluxDB credentials.\nthe secret must include a username and password keys or a token key."
                                                     }
                                                 },
                                                 {
                                                     "name": "flush_timer",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "Sets the write buffer flush timer."
                                                     }
                                                 },
                                                 {
                                                     "name": "org",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "InfluxDB Organization"
                                                     }
                                                 },
                                                 {
                                                     "name": "timestamp_precision",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "Sets the timestamp precision to use in writes for timestamp."
                                                     }
                                                 },
                                                 {
                                                     "name": "tls",
                                                     "single_nested": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "attributes": [
                                                             {
                                                                 "name": "from_files",
                                                                 "single_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "attributes": [
                                                                         {
                                                                             "name": "ca_file",
                                                                             "string": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "description": "Path to a certificate authority file."
                                                                             }
                                                                         },
                                                                         {
                                                                             "name": "cert_file",
                                                                             "string": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "description": "The client certificate file location."
                                                                             }
                                                                         },
                                                                         {
                                                                             "name": "key_file",
                                                                             "string": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "description": "The client private key location."
                                                                             }
                                                                         },
                                                                         {
                                                                             "name": "skip_verify",
                                                                             "bool": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "description": "If true the client will not verify the server's certificate."
                                                                             }
                                                                         }
@@ -1409,12 +1409,12 @@
                                                             {
                                                                 "name": "from_secret",
                                                                 "single_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "attributes": [
                                                                         {
                                                                             "name": "name",
                                                                             "string": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "description": "Secret name containing a ca.crt, a tls.crt and a tls.key keys."
                                                                             }
                                                                         }
@@ -1429,14 +1429,14 @@
                                                 {
                                                     "name": "url",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "InfluxDB server URL"
                                                     }
                                                 },
                                                 {
                                                     "name": "use_gzip",
                                                     "bool": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "When true, the exporter uses GZIP compression in write requests."
                                                     }
                                                 }
@@ -1611,36 +1611,36 @@
                     {
                         "name": "spec",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed",
                             "attributes": [
                                 {
                                     "name": "description",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "A short description of the export rules."
                                     }
                                 },
                                 {
                                     "name": "enabled",
                                     "bool": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "Specifies if the Export rules are enabled or not."
                                     }
                                 },
                                 {
                                     "name": "exports",
                                     "single_nested": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "attributes": [
                                             {
                                                 "name": "alarms_1",
                                                 "single_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed",
                                                     "attributes": [
                                                         {
                                                             "name": "exclude",
                                                             "list": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "element_type": {
                                                                     "string": {}
                                                                 },
@@ -1650,7 +1650,7 @@
                                                         {
                                                             "name": "include",
                                                             "list": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "element_type": {
                                                                     "string": {}
                                                                 },
@@ -1664,31 +1664,31 @@
                                             {
                                                 "name": "query",
                                                 "list_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed",
                                                     "nested_object": {
                                                         "attributes": [
                                                             {
                                                                 "name": "customization",
                                                                 "single_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "attributes": [
                                                                         {
                                                                             "name": "fields",
                                                                             "list_nested": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "nested_object": {
                                                                                     "attributes": [
                                                                                         {
                                                                                             "name": "match",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "description": "A regular expression to be matched against the measurement name"
                                                                                             }
                                                                                         },
                                                                                         {
                                                                                             "name": "replacement",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "description": "A regular expression replacement to be applied to the measurement name"
                                                                                             }
                                                                                         }
@@ -1700,19 +1700,19 @@
                                                                         {
                                                                             "name": "measurement",
                                                                             "single_nested": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "attributes": [
                                                                                     {
                                                                                         "name": "match",
                                                                                         "string": {
-                                                                                            "computed_optional_required": "optional",
+                                                                                            "computed_optional_required": "computed",
                                                                                             "description": "A regular expression to be matched against the measurement name"
                                                                                         }
                                                                                     },
                                                                                     {
                                                                                         "name": "replacement",
                                                                                         "string": {
-                                                                                            "computed_optional_required": "optional",
+                                                                                            "computed_optional_required": "computed",
                                                                                             "description": "A regular expression replacement to be applied to the measurement name"
                                                                                         }
                                                                                     }
@@ -1723,27 +1723,27 @@
                                                                         {
                                                                             "name": "tags",
                                                                             "list_nested": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "nested_object": {
                                                                                     "attributes": [
                                                                                         {
                                                                                             "name": "delimiter",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "description": "Delimiter to join the tag name and value"
                                                                                             }
                                                                                         },
                                                                                         {
                                                                                             "name": "match",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "description": "A regular expression to be matched against tag_name + delimiter + tag_value"
                                                                                             }
                                                                                         },
                                                                                         {
                                                                                             "name": "replacement",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "description": "A regular expression replacement to be applied to tag_name + delimiter + tag_value"
                                                                                             }
                                                                                         }
@@ -1759,7 +1759,7 @@
                                                             {
                                                                 "name": "fields",
                                                                 "list": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "element_type": {
                                                                         "string": {}
                                                                     },
@@ -1769,28 +1769,28 @@
                                                             {
                                                                 "name": "mode",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "Export mode."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "path",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "The EDB path to export, in the format '.node.srl.interface'.\nShould NOT include the namespace path element."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "period",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "Export period. Applicable when mode is set to 'periodic' or 'both'."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "where",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "A where clause to use for the query, e.g. 'oper-state = down'. You can omit enclosing parentheses."
                                                                 }
                                                             }
@@ -1802,34 +1802,34 @@
                                             {
                                                 "name": "resource",
                                                 "list_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed",
                                                     "nested_object": {
                                                         "attributes": [
                                                             {
                                                                 "name": "group",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "The resource group."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "kind",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "The resource kind."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "name",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "The resource name to export. Omit to export all resources based on their GVK"
                                                                 }
                                                             },
                                                             {
                                                                 "name": "version",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "description": "The resource version."
                                                                 }
                                                             }
@@ -1845,20 +1845,20 @@
                                 {
                                     "name": "servers",
                                     "list_nested": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "nested_object": {
                                             "attributes": [
                                                 {
                                                     "name": "bucket",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "InfluxDB Bucket Name."
                                                     }
                                                 },
                                                 {
                                                     "name": "name",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "InfluxDB server Name."
                                                     }
                                                 }
@@ -2031,36 +2031,36 @@
                                     {
                                         "name": "spec",
                                         "single_nested": {
-                                            "computed_optional_required": "optional",
+                                            "computed_optional_required": "computed",
                                             "attributes": [
                                                 {
                                                     "name": "description",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "A short description of the export rules."
                                                     }
                                                 },
                                                 {
                                                     "name": "enabled",
                                                     "bool": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "Specifies if the Export rules are enabled or not."
                                                     }
                                                 },
                                                 {
                                                     "name": "exports",
                                                     "single_nested": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "attributes": [
                                                             {
                                                                 "name": "alarms_1",
                                                                 "single_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "attributes": [
                                                                         {
                                                                             "name": "exclude",
                                                                             "list": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "element_type": {
                                                                                     "string": {}
                                                                                 },
@@ -2070,7 +2070,7 @@
                                                                         {
                                                                             "name": "include",
                                                                             "list": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "element_type": {
                                                                                     "string": {}
                                                                                 },
@@ -2084,31 +2084,31 @@
                                                             {
                                                                 "name": "query",
                                                                 "list_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "nested_object": {
                                                                         "attributes": [
                                                                             {
                                                                                 "name": "customization",
                                                                                 "single_nested": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "attributes": [
                                                                                         {
                                                                                             "name": "fields",
                                                                                             "list_nested": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "nested_object": {
                                                                                                     "attributes": [
                                                                                                         {
                                                                                                             "name": "match",
                                                                                                             "string": {
-                                                                                                                "computed_optional_required": "optional",
+                                                                                                                "computed_optional_required": "computed",
                                                                                                                 "description": "A regular expression to be matched against the measurement name"
                                                                                                             }
                                                                                                         },
                                                                                                         {
                                                                                                             "name": "replacement",
                                                                                                             "string": {
-                                                                                                                "computed_optional_required": "optional",
+                                                                                                                "computed_optional_required": "computed",
                                                                                                                 "description": "A regular expression replacement to be applied to the measurement name"
                                                                                                             }
                                                                                                         }
@@ -2120,19 +2120,19 @@
                                                                                         {
                                                                                             "name": "measurement",
                                                                                             "single_nested": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "attributes": [
                                                                                                     {
                                                                                                         "name": "match",
                                                                                                         "string": {
-                                                                                                            "computed_optional_required": "optional",
+                                                                                                            "computed_optional_required": "computed",
                                                                                                             "description": "A regular expression to be matched against the measurement name"
                                                                                                         }
                                                                                                     },
                                                                                                     {
                                                                                                         "name": "replacement",
                                                                                                         "string": {
-                                                                                                            "computed_optional_required": "optional",
+                                                                                                            "computed_optional_required": "computed",
                                                                                                             "description": "A regular expression replacement to be applied to the measurement name"
                                                                                                         }
                                                                                                     }
@@ -2143,27 +2143,27 @@
                                                                                         {
                                                                                             "name": "tags",
                                                                                             "list_nested": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed",
                                                                                                 "nested_object": {
                                                                                                     "attributes": [
                                                                                                         {
                                                                                                             "name": "delimiter",
                                                                                                             "string": {
-                                                                                                                "computed_optional_required": "optional",
+                                                                                                                "computed_optional_required": "computed",
                                                                                                                 "description": "Delimiter to join the tag name and value"
                                                                                                             }
                                                                                                         },
                                                                                                         {
                                                                                                             "name": "match",
                                                                                                             "string": {
-                                                                                                                "computed_optional_required": "optional",
+                                                                                                                "computed_optional_required": "computed",
                                                                                                                 "description": "A regular expression to be matched against tag_name + delimiter + tag_value"
                                                                                                             }
                                                                                                         },
                                                                                                         {
                                                                                                             "name": "replacement",
                                                                                                             "string": {
-                                                                                                                "computed_optional_required": "optional",
+                                                                                                                "computed_optional_required": "computed",
                                                                                                                 "description": "A regular expression replacement to be applied to tag_name + delimiter + tag_value"
                                                                                                             }
                                                                                                         }
@@ -2179,7 +2179,7 @@
                                                                             {
                                                                                 "name": "fields",
                                                                                 "list": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "element_type": {
                                                                                         "string": {}
                                                                                     },
@@ -2189,28 +2189,28 @@
                                                                             {
                                                                                 "name": "mode",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "Export mode."
                                                                                 }
                                                                             },
                                                                             {
                                                                                 "name": "path",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "The EDB path to export, in the format '.node.srl.interface'.\nShould NOT include the namespace path element."
                                                                                 }
                                                                             },
                                                                             {
                                                                                 "name": "period",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "Export period. Applicable when mode is set to 'periodic' or 'both'."
                                                                                 }
                                                                             },
                                                                             {
                                                                                 "name": "where",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "A where clause to use for the query, e.g. 'oper-state = down'. You can omit enclosing parentheses."
                                                                                 }
                                                                             }
@@ -2222,34 +2222,34 @@
                                                             {
                                                                 "name": "resource",
                                                                 "list_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "nested_object": {
                                                                         "attributes": [
                                                                             {
                                                                                 "name": "group",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "The resource group."
                                                                                 }
                                                                             },
                                                                             {
                                                                                 "name": "kind",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "The resource kind."
                                                                                 }
                                                                             },
                                                                             {
                                                                                 "name": "name",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "The resource name to export. Omit to export all resources based on their GVK"
                                                                                 }
                                                                             },
                                                                             {
                                                                                 "name": "version",
                                                                                 "string": {
-                                                                                    "computed_optional_required": "optional",
+                                                                                    "computed_optional_required": "computed",
                                                                                     "description": "The resource version."
                                                                                 }
                                                                             }
@@ -2265,20 +2265,20 @@
                                                 {
                                                     "name": "servers",
                                                     "list_nested": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "nested_object": {
                                                             "attributes": [
                                                                 {
                                                                     "name": "bucket",
                                                                     "string": {
-                                                                        "computed_optional_required": "optional",
+                                                                        "computed_optional_required": "computed",
                                                                         "description": "InfluxDB Bucket Name."
                                                                     }
                                                                 },
                                                                 {
                                                                     "name": "name",
                                                                     "string": {
-                                                                        "computed_optional_required": "optional",
+                                                                        "computed_optional_required": "computed",
                                                                         "description": "InfluxDB server Name."
                                                                     }
                                                                 }
@@ -2506,78 +2506,78 @@
                     {
                         "name": "spec",
                         "single_nested": {
-                            "computed_optional_required": "optional",
+                            "computed_optional_required": "computed",
                             "attributes": [
                                 {
                                     "name": "batch_size",
                                     "int64": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "Sets number of points sent in single request."
                                     }
                                 },
                                 {
                                     "name": "credentials_secret",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "Secret containing InfluxDB credentials.\nthe secret must include a username and password keys or a token key."
                                     }
                                 },
                                 {
                                     "name": "flush_timer",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "Sets the write buffer flush timer."
                                     }
                                 },
                                 {
                                     "name": "org",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "InfluxDB Organization."
                                     }
                                 },
                                 {
                                     "name": "timestamp_precision",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "Sets the timestamp precision to use in writes for timestamp."
                                     }
                                 },
                                 {
                                     "name": "tls",
                                     "single_nested": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "attributes": [
                                             {
                                                 "name": "from_files",
                                                 "single_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed",
                                                     "attributes": [
                                                         {
                                                             "name": "ca_file",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "description": "Path to a certificate authority file."
                                                             }
                                                         },
                                                         {
                                                             "name": "cert_file",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "description": "The client certificate file location."
                                                             }
                                                         },
                                                         {
                                                             "name": "key_file",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "description": "The client private key location."
                                                             }
                                                         },
                                                         {
                                                             "name": "skip_verify",
                                                             "bool": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "description": "If true the client will not verify the server's certificate."
                                                             }
                                                         }
@@ -2588,12 +2588,12 @@
                                             {
                                                 "name": "from_secret",
                                                 "single_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed",
                                                     "attributes": [
                                                         {
                                                             "name": "name",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed",
                                                                 "description": "Secret name containing a ca.crt, a tls.crt and a tls.key keys."
                                                             }
                                                         }
@@ -2608,14 +2608,14 @@
                                 {
                                     "name": "url",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "InfluxDB server URL."
                                     }
                                 },
                                 {
                                     "name": "use_gzip",
                                     "bool": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed",
                                         "description": "When true, the exporter uses GZIP compression in write requests."
                                     }
                                 }
@@ -2806,78 +2806,78 @@
                                     {
                                         "name": "spec",
                                         "single_nested": {
-                                            "computed_optional_required": "optional",
+                                            "computed_optional_required": "computed",
                                             "attributes": [
                                                 {
                                                     "name": "batch_size",
                                                     "int64": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "Sets number of points sent in single request."
                                                     }
                                                 },
                                                 {
                                                     "name": "credentials_secret",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "Secret containing InfluxDB credentials.\nthe secret must include a username and password keys or a token key."
                                                     }
                                                 },
                                                 {
                                                     "name": "flush_timer",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "Sets the write buffer flush timer."
                                                     }
                                                 },
                                                 {
                                                     "name": "org",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "InfluxDB Organization."
                                                     }
                                                 },
                                                 {
                                                     "name": "timestamp_precision",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "Sets the timestamp precision to use in writes for timestamp."
                                                     }
                                                 },
                                                 {
                                                     "name": "tls",
                                                     "single_nested": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "attributes": [
                                                             {
                                                                 "name": "from_files",
                                                                 "single_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "attributes": [
                                                                         {
                                                                             "name": "ca_file",
                                                                             "string": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "description": "Path to a certificate authority file."
                                                                             }
                                                                         },
                                                                         {
                                                                             "name": "cert_file",
                                                                             "string": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "description": "The client certificate file location."
                                                                             }
                                                                         },
                                                                         {
                                                                             "name": "key_file",
                                                                             "string": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "description": "The client private key location."
                                                                             }
                                                                         },
                                                                         {
                                                                             "name": "skip_verify",
                                                                             "bool": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "description": "If true the client will not verify the server's certificate."
                                                                             }
                                                                         }
@@ -2888,12 +2888,12 @@
                                                             {
                                                                 "name": "from_secret",
                                                                 "single_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed",
                                                                     "attributes": [
                                                                         {
                                                                             "name": "name",
                                                                             "string": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed",
                                                                                 "description": "Secret name containing a ca.crt, a tls.crt and a tls.key keys."
                                                                             }
                                                                         }
@@ -2908,14 +2908,14 @@
                                                 {
                                                     "name": "url",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "InfluxDB server URL."
                                                     }
                                                 },
                                                 {
                                                     "name": "use_gzip",
                                                     "bool": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed",
                                                         "description": "When true, the exporter uses GZIP compression in write requests."
                                                     }
                                                 }
@@ -3143,7 +3143,7 @@
                                 {
                                     "name": "description",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed_optional",
                                         "description": "A short description of the export rules."
                                     }
                                 },
@@ -3165,12 +3165,12 @@
                                             {
                                                 "name": "alarms_1",
                                                 "single_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed_optional",
                                                     "attributes": [
                                                         {
                                                             "name": "exclude",
                                                             "list": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "element_type": {
                                                                     "string": {}
                                                                 },
@@ -3180,7 +3180,7 @@
                                                         {
                                                             "name": "include",
                                                             "list": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "element_type": {
                                                                     "string": {}
                                                                 },
@@ -3190,7 +3190,7 @@
                                                         {
                                                             "name": "namespaces",
                                                             "list": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "element_type": {
                                                                     "string": {}
                                                                 },
@@ -3204,31 +3204,31 @@
                                             {
                                                 "name": "query",
                                                 "list_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed_optional",
                                                     "nested_object": {
                                                         "attributes": [
                                                             {
                                                                 "name": "customization",
                                                                 "single_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "attributes": [
                                                                         {
                                                                             "name": "fields",
                                                                             "list_nested": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed_optional",
                                                                                 "nested_object": {
                                                                                     "attributes": [
                                                                                         {
                                                                                             "name": "match",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed_optional",
                                                                                                 "description": "A regular expression to be matched against the measurement name"
                                                                                             }
                                                                                         },
                                                                                         {
                                                                                             "name": "replacement",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed_optional",
                                                                                                 "description": "A regular expression replacement to be applied to the measurement name"
                                                                                             }
                                                                                         }
@@ -3240,19 +3240,19 @@
                                                                         {
                                                                             "name": "measurement",
                                                                             "single_nested": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed_optional",
                                                                                 "attributes": [
                                                                                     {
                                                                                         "name": "match",
                                                                                         "string": {
-                                                                                            "computed_optional_required": "optional",
+                                                                                            "computed_optional_required": "computed_optional",
                                                                                             "description": "A regular expression to be matched against the measurement name"
                                                                                         }
                                                                                     },
                                                                                     {
                                                                                         "name": "replacement",
                                                                                         "string": {
-                                                                                            "computed_optional_required": "optional",
+                                                                                            "computed_optional_required": "computed_optional",
                                                                                             "description": "A regular expression replacement to be applied to the measurement name"
                                                                                         }
                                                                                     }
@@ -3263,7 +3263,7 @@
                                                                         {
                                                                             "name": "tags",
                                                                             "list_nested": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed_optional",
                                                                                 "nested_object": {
                                                                                     "attributes": [
                                                                                         {
@@ -3279,14 +3279,14 @@
                                                                                         {
                                                                                             "name": "match",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed_optional",
                                                                                                 "description": "A regular expression to be matched against tag_name + delimiter + tag_value"
                                                                                             }
                                                                                         },
                                                                                         {
                                                                                             "name": "replacement",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed_optional",
                                                                                                 "description": "A regular expression replacement to be applied to tag_name + delimiter + tag_value"
                                                                                             }
                                                                                         }
@@ -3302,7 +3302,7 @@
                                                             {
                                                                 "name": "fields",
                                                                 "list": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "element_type": {
                                                                         "string": {}
                                                                     },
@@ -3334,21 +3334,21 @@
                                                             {
                                                                 "name": "path",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "The EDB path to export, in the format '.node.srl.interface'.\nShould NOT include the namespace path element."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "period",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "Export period. Applicable when mode is set to 'periodic' or 'both'."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "where",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "A where clause to use for the query, e.g. 'oper-state = down'. You can omit enclosing parentheses."
                                                                 }
                                                             }
@@ -3360,34 +3360,34 @@
                                             {
                                                 "name": "resource",
                                                 "list_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed_optional",
                                                     "nested_object": {
                                                         "attributes": [
                                                             {
                                                                 "name": "group",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "The resource group."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "kind",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "The resource kind."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "name",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "The resource name to export. Omit to export all resources based on their GVK"
                                                                 }
                                                             },
                                                             {
                                                                 "name": "namespaces",
                                                                 "list": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "element_type": {
                                                                         "string": {}
                                                                     },
@@ -3397,7 +3397,7 @@
                                                             {
                                                                 "name": "version",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "The resource version."
                                                                 }
                                                             }
@@ -3419,14 +3419,14 @@
                                                 {
                                                     "name": "bucket",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed_optional",
                                                         "description": "InfluxDB Bucket Name."
                                                     }
                                                 },
                                                 {
                                                     "name": "name",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed_optional",
                                                         "description": "InfluxDB server Name."
                                                     }
                                                 }
@@ -3684,38 +3684,38 @@
                                 {
                                     "name": "tls",
                                     "single_nested": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed_optional",
                                         "attributes": [
                                             {
                                                 "name": "from_files",
                                                 "single_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed_optional",
                                                     "attributes": [
                                                         {
                                                             "name": "ca_file",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "description": "Path to a certificate authority file."
                                                             }
                                                         },
                                                         {
                                                             "name": "cert_file",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "description": "The client certificate file location."
                                                             }
                                                         },
                                                         {
                                                             "name": "key_file",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "description": "The client private key location."
                                                             }
                                                         },
                                                         {
                                                             "name": "skip_verify",
                                                             "bool": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "description": "If true the client will not verify the server's certificate."
                                                             }
                                                         }
@@ -3726,12 +3726,12 @@
                                             {
                                                 "name": "from_secret",
                                                 "single_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed_optional",
                                                     "attributes": [
                                                         {
                                                             "name": "name",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "description": "Secret name containing a ca.crt, a tls.crt and a tls.key keys."
                                                             }
                                                         }
@@ -3753,7 +3753,7 @@
                                 {
                                     "name": "use_gzip",
                                     "bool": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed_optional",
                                         "description": "When true, the exporter uses GZIP compression in write requests."
                                     }
                                 }
@@ -3970,7 +3970,7 @@
                                 {
                                     "name": "description",
                                     "string": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed_optional",
                                         "description": "A short description of the export rules."
                                     }
                                 },
@@ -3992,12 +3992,12 @@
                                             {
                                                 "name": "alarms_1",
                                                 "single_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed_optional",
                                                     "attributes": [
                                                         {
                                                             "name": "exclude",
                                                             "list": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "element_type": {
                                                                     "string": {}
                                                                 },
@@ -4007,7 +4007,7 @@
                                                         {
                                                             "name": "include",
                                                             "list": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "element_type": {
                                                                     "string": {}
                                                                 },
@@ -4021,31 +4021,31 @@
                                             {
                                                 "name": "query",
                                                 "list_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed_optional",
                                                     "nested_object": {
                                                         "attributes": [
                                                             {
                                                                 "name": "customization",
                                                                 "single_nested": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "attributes": [
                                                                         {
                                                                             "name": "fields",
                                                                             "list_nested": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed_optional",
                                                                                 "nested_object": {
                                                                                     "attributes": [
                                                                                         {
                                                                                             "name": "match",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed_optional",
                                                                                                 "description": "A regular expression to be matched against the measurement name"
                                                                                             }
                                                                                         },
                                                                                         {
                                                                                             "name": "replacement",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed_optional",
                                                                                                 "description": "A regular expression replacement to be applied to the measurement name"
                                                                                             }
                                                                                         }
@@ -4057,19 +4057,19 @@
                                                                         {
                                                                             "name": "measurement",
                                                                             "single_nested": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed_optional",
                                                                                 "attributes": [
                                                                                     {
                                                                                         "name": "match",
                                                                                         "string": {
-                                                                                            "computed_optional_required": "optional",
+                                                                                            "computed_optional_required": "computed_optional",
                                                                                             "description": "A regular expression to be matched against the measurement name"
                                                                                         }
                                                                                     },
                                                                                     {
                                                                                         "name": "replacement",
                                                                                         "string": {
-                                                                                            "computed_optional_required": "optional",
+                                                                                            "computed_optional_required": "computed_optional",
                                                                                             "description": "A regular expression replacement to be applied to the measurement name"
                                                                                         }
                                                                                     }
@@ -4080,7 +4080,7 @@
                                                                         {
                                                                             "name": "tags",
                                                                             "list_nested": {
-                                                                                "computed_optional_required": "optional",
+                                                                                "computed_optional_required": "computed_optional",
                                                                                 "nested_object": {
                                                                                     "attributes": [
                                                                                         {
@@ -4096,14 +4096,14 @@
                                                                                         {
                                                                                             "name": "match",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed_optional",
                                                                                                 "description": "A regular expression to be matched against tag_name + delimiter + tag_value"
                                                                                             }
                                                                                         },
                                                                                         {
                                                                                             "name": "replacement",
                                                                                             "string": {
-                                                                                                "computed_optional_required": "optional",
+                                                                                                "computed_optional_required": "computed_optional",
                                                                                                 "description": "A regular expression replacement to be applied to tag_name + delimiter + tag_value"
                                                                                             }
                                                                                         }
@@ -4119,7 +4119,7 @@
                                                             {
                                                                 "name": "fields",
                                                                 "list": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "element_type": {
                                                                         "string": {}
                                                                     },
@@ -4151,21 +4151,21 @@
                                                             {
                                                                 "name": "path",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "The EDB path to export, in the format '.node.srl.interface'.\nShould NOT include the namespace path element."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "period",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "Export period. Applicable when mode is set to 'periodic' or 'both'."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "where",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "A where clause to use for the query, e.g. 'oper-state = down'. You can omit enclosing parentheses."
                                                                 }
                                                             }
@@ -4177,34 +4177,34 @@
                                             {
                                                 "name": "resource",
                                                 "list_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed_optional",
                                                     "nested_object": {
                                                         "attributes": [
                                                             {
                                                                 "name": "group",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "The resource group."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "kind",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "The resource kind."
                                                                 }
                                                             },
                                                             {
                                                                 "name": "name",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "The resource name to export. Omit to export all resources based on their GVK"
                                                                 }
                                                             },
                                                             {
                                                                 "name": "version",
                                                                 "string": {
-                                                                    "computed_optional_required": "optional",
+                                                                    "computed_optional_required": "computed_optional",
                                                                     "description": "The resource version."
                                                                 }
                                                             }
@@ -4226,14 +4226,14 @@
                                                 {
                                                     "name": "bucket",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed_optional",
                                                         "description": "InfluxDB Bucket Name."
                                                     }
                                                 },
                                                 {
                                                     "name": "name",
                                                     "string": {
-                                                        "computed_optional_required": "optional",
+                                                        "computed_optional_required": "computed_optional",
                                                         "description": "InfluxDB server Name."
                                                     }
                                                 }
@@ -4495,38 +4495,38 @@
                                 {
                                     "name": "tls",
                                     "single_nested": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed_optional",
                                         "attributes": [
                                             {
                                                 "name": "from_files",
                                                 "single_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed_optional",
                                                     "attributes": [
                                                         {
                                                             "name": "ca_file",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "description": "Path to a certificate authority file."
                                                             }
                                                         },
                                                         {
                                                             "name": "cert_file",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "description": "The client certificate file location."
                                                             }
                                                         },
                                                         {
                                                             "name": "key_file",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "description": "The client private key location."
                                                             }
                                                         },
                                                         {
                                                             "name": "skip_verify",
                                                             "bool": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "description": "If true the client will not verify the server's certificate."
                                                             }
                                                         }
@@ -4537,12 +4537,12 @@
                                             {
                                                 "name": "from_secret",
                                                 "single_nested": {
-                                                    "computed_optional_required": "optional",
+                                                    "computed_optional_required": "computed_optional",
                                                     "attributes": [
                                                         {
                                                             "name": "name",
                                                             "string": {
-                                                                "computed_optional_required": "optional",
+                                                                "computed_optional_required": "computed_optional",
                                                                 "description": "Secret name containing a ca.crt, a tls.crt and a tls.key keys."
                                                             }
                                                         }
@@ -4564,7 +4564,7 @@
                                 {
                                     "name": "use_gzip",
                                     "bool": {
-                                        "computed_optional_required": "optional",
+                                        "computed_optional_required": "computed_optional",
                                         "description": "When true, the exporter uses GZIP compression in write requests."
                                     }
                                 }

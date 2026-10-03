@@ -123,6 +123,7 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 				Attributes: map[string]schema.Attribute{
 					"description": schema.StringAttribute{
 						Optional:            true,
+						Computed:            true,
 						Description:         "A short description of the export rules.",
 						MarkdownDescription: "A short description of the export rules.",
 					},
@@ -140,18 +141,21 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 									"exclude": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
+										Computed:            true,
 										Description:         "List of Alarm types to exclude.",
 										MarkdownDescription: "List of Alarm types to exclude.",
 									},
 									"include": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
+										Computed:            true,
 										Description:         "List of Alarm types to include. Set it to '*' to include all alarms.",
 										MarkdownDescription: "List of Alarm types to include. Set it to '*' to include all alarms.",
 									},
 									"namespaces": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
+										Computed:            true,
 										Description:         "List of namespaces to include alarms from. Omit to include all namespaces.",
 										MarkdownDescription: "List of namespaces to include alarms from. Omit to include all namespaces.",
 									},
@@ -162,6 +166,7 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional:            true,
+								Computed:            true,
 								Description:         "Defines Alarms as export source",
 								MarkdownDescription: "Defines Alarms as export source",
 							},
@@ -175,11 +180,13 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 														Attributes: map[string]schema.Attribute{
 															"match": schema.StringAttribute{
 																Optional:            true,
+																Computed:            true,
 																Description:         "A regular expression to be matched against the measurement name",
 																MarkdownDescription: "A regular expression to be matched against the measurement name",
 															},
 															"replacement": schema.StringAttribute{
 																Optional:            true,
+																Computed:            true,
 																Description:         "A regular expression replacement to be applied to the measurement name",
 																MarkdownDescription: "A regular expression replacement to be applied to the measurement name",
 															},
@@ -191,6 +198,7 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 														},
 													},
 													Optional:            true,
+													Computed:            true,
 													Description:         "Field names customization",
 													MarkdownDescription: "Field names customization",
 												},
@@ -198,11 +206,13 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 													Attributes: map[string]schema.Attribute{
 														"match": schema.StringAttribute{
 															Optional:            true,
+															Computed:            true,
 															Description:         "A regular expression to be matched against the measurement name",
 															MarkdownDescription: "A regular expression to be matched against the measurement name",
 														},
 														"replacement": schema.StringAttribute{
 															Optional:            true,
+															Computed:            true,
 															Description:         "A regular expression replacement to be applied to the measurement name",
 															MarkdownDescription: "A regular expression replacement to be applied to the measurement name",
 														},
@@ -213,6 +223,7 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 														},
 													},
 													Optional:            true,
+													Computed:            true,
 													Description:         "Measurement name renaming regex and replacement",
 													MarkdownDescription: "Measurement name renaming regex and replacement",
 												},
@@ -228,11 +239,13 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 															},
 															"match": schema.StringAttribute{
 																Optional:            true,
+																Computed:            true,
 																Description:         "A regular expression to be matched against tag_name + delimiter + tag_value",
 																MarkdownDescription: "A regular expression to be matched against tag_name + delimiter + tag_value",
 															},
 															"replacement": schema.StringAttribute{
 																Optional:            true,
+																Computed:            true,
 																Description:         "A regular expression replacement to be applied to tag_name + delimiter + tag_value",
 																MarkdownDescription: "A regular expression replacement to be applied to tag_name + delimiter + tag_value",
 															},
@@ -244,6 +257,7 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 														},
 													},
 													Optional:            true,
+													Computed:            true,
 													Description:         "Tags customization",
 													MarkdownDescription: "Tags customization",
 												},
@@ -254,12 +268,14 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 												},
 											},
 											Optional:            true,
+											Computed:            true,
 											Description:         "InfluxDB data point manipulation.",
 											MarkdownDescription: "InfluxDB data point manipulation.",
 										},
 										"fields": schema.ListAttribute{
 											ElementType:         types.StringType,
 											Optional:            true,
+											Computed:            true,
 											Description:         "Fields to export from the EDB table set in Path.\nExports all fields if not specified.",
 											MarkdownDescription: "Fields to export from the EDB table set in Path.\nExports all fields if not specified.",
 										},
@@ -279,16 +295,19 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 										},
 										"path": schema.StringAttribute{
 											Optional:            true,
+											Computed:            true,
 											Description:         "The EDB path to export, in the format '.node.srl.interface'.\nShould NOT include the namespace path element.",
 											MarkdownDescription: "The EDB path to export, in the format '.node.srl.interface'.\nShould NOT include the namespace path element.",
 										},
 										"period": schema.StringAttribute{
 											Optional:            true,
+											Computed:            true,
 											Description:         "Export period. Applicable when mode is set to 'periodic' or 'both'.",
 											MarkdownDescription: "Export period. Applicable when mode is set to 'periodic' or 'both'.",
 										},
 										"where": schema.StringAttribute{
 											Optional:            true,
+											Computed:            true,
 											Description:         "A where clause to use for the query, e.g. 'oper-state = down'. You can omit enclosing parentheses.",
 											MarkdownDescription: "A where clause to use for the query, e.g. 'oper-state = down'. You can omit enclosing parentheses.",
 										},
@@ -300,6 +319,7 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional:            true,
+								Computed:            true,
 								Description:         "Defines a custom query as export source",
 								MarkdownDescription: "Defines a custom query as export source",
 							},
@@ -308,27 +328,32 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 									Attributes: map[string]schema.Attribute{
 										"group": schema.StringAttribute{
 											Optional:            true,
+											Computed:            true,
 											Description:         "The resource group.",
 											MarkdownDescription: "The resource group.",
 										},
 										"kind": schema.StringAttribute{
 											Optional:            true,
+											Computed:            true,
 											Description:         "The resource kind.",
 											MarkdownDescription: "The resource kind.",
 										},
 										"name": schema.StringAttribute{
 											Optional:            true,
+											Computed:            true,
 											Description:         "The resource name to export. Omit to export all resources based on their GVK",
 											MarkdownDescription: "The resource name to export. Omit to export all resources based on their GVK",
 										},
 										"namespaces": schema.ListAttribute{
 											ElementType:         types.StringType,
 											Optional:            true,
+											Computed:            true,
 											Description:         "List of namespaces to include resources from. Omit to include all namespaces.",
 											MarkdownDescription: "List of namespaces to include resources from. Omit to include all namespaces.",
 										},
 										"version": schema.StringAttribute{
 											Optional:            true,
+											Computed:            true,
 											Description:         "The resource version.",
 											MarkdownDescription: "The resource version.",
 										},
@@ -340,6 +365,7 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional:            true,
+								Computed:            true,
 								Description:         "Defines EDA resources as export source",
 								MarkdownDescription: "Defines EDA resources as export source",
 							},
@@ -358,11 +384,13 @@ func ClusterExportResourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"bucket": schema.StringAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "InfluxDB Bucket Name.",
 									MarkdownDescription: "InfluxDB Bucket Name.",
 								},
 								"name": schema.StringAttribute{
 									Optional:            true,
+									Computed:            true,
 									Description:         "InfluxDB server Name.",
 									MarkdownDescription: "InfluxDB server Name.",
 								},

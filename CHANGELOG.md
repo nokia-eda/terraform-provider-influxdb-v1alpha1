@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.2.0
+
+Initial release of 26.8 support.
+
+## 1.1.1
+
+- Mark the `client_secret` provider attribute as sensitive and fix provider configuration handling.
+
+## 1.1.0
+
+Align the provider with the 26.4 release.
+
 ## 1.0.1
 
 - Fix K8s Patch operation for the resource.

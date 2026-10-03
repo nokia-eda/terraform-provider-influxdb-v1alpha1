@@ -102,12 +102,12 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 			"spec": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"description": schema.StringAttribute{
-						Optional:            true,
+						Computed:            true,
 						Description:         "A short description of the export rules.",
 						MarkdownDescription: "A short description of the export rules.",
 					},
 					"enabled": schema.BoolAttribute{
-						Optional:            true,
+						Computed:            true,
 						Description:         "Specifies if the Export rules are enabled or not.",
 						MarkdownDescription: "Specifies if the Export rules are enabled or not.",
 					},
@@ -117,13 +117,13 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 								Attributes: map[string]schema.Attribute{
 									"exclude": schema.ListAttribute{
 										ElementType:         types.StringType,
-										Optional:            true,
+										Computed:            true,
 										Description:         "List of Alarm types to exclude.",
 										MarkdownDescription: "List of Alarm types to exclude.",
 									},
 									"include": schema.ListAttribute{
 										ElementType:         types.StringType,
-										Optional:            true,
+										Computed:            true,
 										Description:         "List of Alarm types to include. Set it to '*' for all.",
 										MarkdownDescription: "List of Alarm types to include. Set it to '*' for all.",
 									},
@@ -133,7 +133,7 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 										AttrTypes: Alarms1Value{}.AttributeTypes(ctx),
 									},
 								},
-								Optional:            true,
+								Computed:            true,
 								Description:         "Defines Alarms as export source",
 								MarkdownDescription: "Defines Alarms as export source",
 							},
@@ -146,12 +146,12 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 													NestedObject: schema.NestedAttributeObject{
 														Attributes: map[string]schema.Attribute{
 															"match": schema.StringAttribute{
-																Optional:            true,
+																Computed:            true,
 																Description:         "A regular expression to be matched against the measurement name",
 																MarkdownDescription: "A regular expression to be matched against the measurement name",
 															},
 															"replacement": schema.StringAttribute{
-																Optional:            true,
+																Computed:            true,
 																Description:         "A regular expression replacement to be applied to the measurement name",
 																MarkdownDescription: "A regular expression replacement to be applied to the measurement name",
 															},
@@ -162,19 +162,19 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 															},
 														},
 													},
-													Optional:            true,
+													Computed:            true,
 													Description:         "Field names customization",
 													MarkdownDescription: "Field names customization",
 												},
 												"measurement": schema.SingleNestedAttribute{
 													Attributes: map[string]schema.Attribute{
 														"match": schema.StringAttribute{
-															Optional:            true,
+															Computed:            true,
 															Description:         "A regular expression to be matched against the measurement name",
 															MarkdownDescription: "A regular expression to be matched against the measurement name",
 														},
 														"replacement": schema.StringAttribute{
-															Optional:            true,
+															Computed:            true,
 															Description:         "A regular expression replacement to be applied to the measurement name",
 															MarkdownDescription: "A regular expression replacement to be applied to the measurement name",
 														},
@@ -184,7 +184,7 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 															AttrTypes: MeasurementValue{}.AttributeTypes(ctx),
 														},
 													},
-													Optional:            true,
+													Computed:            true,
 													Description:         "Measurement name renaming regex and replacement",
 													MarkdownDescription: "Measurement name renaming regex and replacement",
 												},
@@ -192,17 +192,17 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 													NestedObject: schema.NestedAttributeObject{
 														Attributes: map[string]schema.Attribute{
 															"delimiter": schema.StringAttribute{
-																Optional:            true,
+																Computed:            true,
 																Description:         "Delimiter to join the tag name and value",
 																MarkdownDescription: "Delimiter to join the tag name and value",
 															},
 															"match": schema.StringAttribute{
-																Optional:            true,
+																Computed:            true,
 																Description:         "A regular expression to be matched against tag_name + delimiter + tag_value",
 																MarkdownDescription: "A regular expression to be matched against tag_name + delimiter + tag_value",
 															},
 															"replacement": schema.StringAttribute{
-																Optional:            true,
+																Computed:            true,
 																Description:         "A regular expression replacement to be applied to tag_name + delimiter + tag_value",
 																MarkdownDescription: "A regular expression replacement to be applied to tag_name + delimiter + tag_value",
 															},
@@ -213,7 +213,7 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 															},
 														},
 													},
-													Optional:            true,
+													Computed:            true,
 													Description:         "Tags customization",
 													MarkdownDescription: "Tags customization",
 												},
@@ -223,33 +223,33 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 													AttrTypes: CustomizationValue{}.AttributeTypes(ctx),
 												},
 											},
-											Optional:            true,
+											Computed:            true,
 											Description:         "InfluxDB data point manipulation.",
 											MarkdownDescription: "InfluxDB data point manipulation.",
 										},
 										"fields": schema.ListAttribute{
 											ElementType:         types.StringType,
-											Optional:            true,
+											Computed:            true,
 											Description:         "Fields to export from the EDB table set in Path.\nExports all fields if not specified.",
 											MarkdownDescription: "Fields to export from the EDB table set in Path.\nExports all fields if not specified.",
 										},
 										"mode": schema.StringAttribute{
-											Optional:            true,
+											Computed:            true,
 											Description:         "Export mode.",
 											MarkdownDescription: "Export mode.",
 										},
 										"path": schema.StringAttribute{
-											Optional:            true,
+											Computed:            true,
 											Description:         "The EDB path to export, in the format '.node.srl.interface'.\nShould NOT include the namespace path element.",
 											MarkdownDescription: "The EDB path to export, in the format '.node.srl.interface'.\nShould NOT include the namespace path element.",
 										},
 										"period": schema.StringAttribute{
-											Optional:            true,
+											Computed:            true,
 											Description:         "Export period. Applicable when mode is set to 'periodic' or 'both'.",
 											MarkdownDescription: "Export period. Applicable when mode is set to 'periodic' or 'both'.",
 										},
 										"where": schema.StringAttribute{
-											Optional:            true,
+											Computed:            true,
 											Description:         "A where clause to use for the query, e.g. 'oper-state = down'. You can omit enclosing parentheses.",
 											MarkdownDescription: "A where clause to use for the query, e.g. 'oper-state = down'. You can omit enclosing parentheses.",
 										},
@@ -260,7 +260,7 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 								},
-								Optional:            true,
+								Computed:            true,
 								Description:         "Defines a custom query as export source",
 								MarkdownDescription: "Defines a custom query as export source",
 							},
@@ -268,22 +268,22 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 								NestedObject: schema.NestedAttributeObject{
 									Attributes: map[string]schema.Attribute{
 										"group": schema.StringAttribute{
-											Optional:            true,
+											Computed:            true,
 											Description:         "The resource group.",
 											MarkdownDescription: "The resource group.",
 										},
 										"kind": schema.StringAttribute{
-											Optional:            true,
+											Computed:            true,
 											Description:         "The resource kind.",
 											MarkdownDescription: "The resource kind.",
 										},
 										"name": schema.StringAttribute{
-											Optional:            true,
+											Computed:            true,
 											Description:         "The resource name to export. Omit to export all resources based on their GVK",
 											MarkdownDescription: "The resource name to export. Omit to export all resources based on their GVK",
 										},
 										"version": schema.StringAttribute{
-											Optional:            true,
+											Computed:            true,
 											Description:         "The resource version.",
 											MarkdownDescription: "The resource version.",
 										},
@@ -294,7 +294,7 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 										},
 									},
 								},
-								Optional:            true,
+								Computed:            true,
 								Description:         "Defines EDA resources as export source",
 								MarkdownDescription: "Defines EDA resources as export source",
 							},
@@ -304,7 +304,7 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 								AttrTypes: ExportsValue{}.AttributeTypes(ctx),
 							},
 						},
-						Optional:            true,
+						Computed:            true,
 						Description:         "List of export rules defining which EDB tables are exported to InfluxDB.",
 						MarkdownDescription: "List of export rules defining which EDB tables are exported to InfluxDB.",
 					},
@@ -312,12 +312,12 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
 								"bucket": schema.StringAttribute{
-									Optional:            true,
+									Computed:            true,
 									Description:         "InfluxDB Bucket Name.",
 									MarkdownDescription: "InfluxDB Bucket Name.",
 								},
 								"name": schema.StringAttribute{
-									Optional:            true,
+									Computed:            true,
 									Description:         "InfluxDB server Name.",
 									MarkdownDescription: "InfluxDB server Name.",
 								},
@@ -328,7 +328,7 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 								},
 							},
 						},
-						Optional:            true,
+						Computed:            true,
 						Description:         "List of influxDB server destination where EDB tables must be written.",
 						MarkdownDescription: "List of influxDB server destination where EDB tables must be written.",
 					},
@@ -338,7 +338,7 @@ func ExportDataSourceSchema(ctx context.Context) schema.Schema {
 						AttrTypes: SpecValue{}.AttributeTypes(ctx),
 					},
 				},
-				Optional:            true,
+				Computed:            true,
 				Description:         "ExportSpec defines the desired state of Export",
 				MarkdownDescription: "ExportSpec defines the desired state of Export",
 			},

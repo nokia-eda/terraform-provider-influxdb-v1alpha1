@@ -22,13 +22,14 @@ import (
 )
 
 var (
-	visitCounter      int64
+	visitCounter      atomic.Int64
 	mapLock           sync.Mutex
 	ignoreCaseVisitor = map[string]bool{}
 	snakeToCamelNames = map[string]string{
 		"labelselector": "label-selector",
 	}
 	camelToSnakeNames = map[string]string{}
+	queryParamNames   = map[string]string{}
 	acronyms          = map[string]string{
 		"arp":   "ARP",
 		"arpnd": "ARPND",
@@ -51,7 +52,9 @@ var (
 		"ipv4":  "IPv4",
 		"ipv6":  "IPv6",
 		"irb":   "IRB",
+		"isis":  "ISIS",
 		"l2cp":  "L2CP",
+		"lag":   "LAG",
 		"ldap":  "LDAP",
 		"ldp":   "LDP",
 		"mac":   "MAC",
@@ -62,12 +65,17 @@ var (
 		"pfc":   "PFC",
 		"rr":    "RR",
 		"safi":  "SAFI",
+		"sid":   "SID",
+		"snmp":  "SNMP",
 		"spf":   "SPF",
 		"tls":   "TLS",
+		"tlv":   "TLV",
 		"tpi":   "TPI",
+		"ttl":   "TTL",
 		"ui":    "UI",
 		"uri":   "URI",
 		"url":   "URL",
+		"utc":   "UTC",
 		"uuid":  "UUID",
 		"vlan":  "VLAN",
 		"vpn":   "VPN",
@@ -80,7 +88,7 @@ var (
 )
 
 func newVisitID(prefix string) string {
-	return prefix + "-" + strconv.FormatInt(atomic.AddInt64(&visitCounter, 1), 10)
+	return prefix + "-" + strconv.FormatInt(visitCounter.Add(1), 10)
 }
 
 func getVisited(key string) bool {
@@ -150,6 +158,16 @@ func SnakeToCamel(str string) string {
 		result[0] = strings.ToLower(result[0])
 	}
 	return strings.Join(result, "")
+}
+
+// QueryParamName returns the API query parameter name for a Terraform
+// attribute name. Params renamed by an aliases entry in config.yml are
+// mapped back to the original param name here.
+func QueryParamName(attrName string) string {
+	if val, ok := queryParamNames[attrName]; ok {
+		return val
+	}
+	return SnakeToCamel(attrName)
 }
 
 // CamelToSnake converts a camelCase string to snake_case
@@ -892,8 +910,8 @@ func ModelToStringMap(ctx context.Context, model any) (map[string]string, error)
 				typ.Elem().String(), field.Name))
 			continue
 		}
-		// Convert the field name from its `tfsdk` tag to camelCase
-		fieldName := SnakeToCamel(field.Tag.Get("tfsdk"))
+		// Convert the field name from its `tfsdk` tag to the API query param name
+		fieldName := QueryParamName(field.Tag.Get("tfsdk"))
 		attrVal := val.Elem().Field(i).Interface().(attr.Value)
 
 		tflog.Debug(ctx, "ModelToStringMap()::Iterating over fields", map[string]any{

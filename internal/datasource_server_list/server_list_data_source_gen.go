@@ -104,27 +104,27 @@ func ServerListDataSourceSchema(ctx context.Context) schema.Schema {
 						"spec": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
 								"batch_size": schema.Int64Attribute{
-									Optional:            true,
+									Computed:            true,
 									Description:         "Sets number of points sent in single request.",
 									MarkdownDescription: "Sets number of points sent in single request.",
 								},
 								"credentials_secret": schema.StringAttribute{
-									Optional:            true,
+									Computed:            true,
 									Description:         "Secret containing InfluxDB credentials.\nthe secret must include a username and password keys or a token key.",
 									MarkdownDescription: "Secret containing InfluxDB credentials.\nthe secret must include a username and password keys or a token key.",
 								},
 								"flush_timer": schema.StringAttribute{
-									Optional:            true,
+									Computed:            true,
 									Description:         "Sets the write buffer flush timer.",
 									MarkdownDescription: "Sets the write buffer flush timer.",
 								},
 								"org": schema.StringAttribute{
-									Optional:            true,
+									Computed:            true,
 									Description:         "InfluxDB Organization.",
 									MarkdownDescription: "InfluxDB Organization.",
 								},
 								"timestamp_precision": schema.StringAttribute{
-									Optional:            true,
+									Computed:            true,
 									Description:         "Sets the timestamp precision to use in writes for timestamp.",
 									MarkdownDescription: "Sets the timestamp precision to use in writes for timestamp.",
 								},
@@ -133,22 +133,22 @@ func ServerListDataSourceSchema(ctx context.Context) schema.Schema {
 										"from_files": schema.SingleNestedAttribute{
 											Attributes: map[string]schema.Attribute{
 												"ca_file": schema.StringAttribute{
-													Optional:            true,
+													Computed:            true,
 													Description:         "Path to a certificate authority file.",
 													MarkdownDescription: "Path to a certificate authority file.",
 												},
 												"cert_file": schema.StringAttribute{
-													Optional:            true,
+													Computed:            true,
 													Description:         "The client certificate file location.",
 													MarkdownDescription: "The client certificate file location.",
 												},
 												"key_file": schema.StringAttribute{
-													Optional:            true,
+													Computed:            true,
 													Description:         "The client private key location.",
 													MarkdownDescription: "The client private key location.",
 												},
 												"skip_verify": schema.BoolAttribute{
-													Optional:            true,
+													Computed:            true,
 													Description:         "If true the client will not verify the server's certificate.",
 													MarkdownDescription: "If true the client will not verify the server's certificate.",
 												},
@@ -158,14 +158,14 @@ func ServerListDataSourceSchema(ctx context.Context) schema.Schema {
 													AttrTypes: FromFilesValue{}.AttributeTypes(ctx),
 												},
 											},
-											Optional:            true,
+											Computed:            true,
 											Description:         "Certificates files.",
 											MarkdownDescription: "Certificates files.",
 										},
 										"from_secret": schema.SingleNestedAttribute{
 											Attributes: map[string]schema.Attribute{
 												"name": schema.StringAttribute{
-													Optional:            true,
+													Computed:            true,
 													Description:         "Secret name containing a ca.crt, a tls.crt and a tls.key keys.",
 													MarkdownDescription: "Secret name containing a ca.crt, a tls.crt and a tls.key keys.",
 												},
@@ -175,7 +175,7 @@ func ServerListDataSourceSchema(ctx context.Context) schema.Schema {
 													AttrTypes: FromSecretValue{}.AttributeTypes(ctx),
 												},
 											},
-											Optional:            true,
+											Computed:            true,
 											Description:         "Secret containing a `tls.crt`, a `tls.key` and a `ca.crt` keys.\nBoth `tls.crt` and `tls.key` must be present. If `ca.crt` is not present\nthe remote server certificate is not verified.",
 											MarkdownDescription: "Secret containing a `tls.crt`, a `tls.key` and a `ca.crt` keys.\nBoth `tls.crt` and `tls.key` must be present. If `ca.crt` is not present\nthe remote server certificate is not verified.",
 										},
@@ -185,17 +185,17 @@ func ServerListDataSourceSchema(ctx context.Context) schema.Schema {
 											AttrTypes: TlsValue{}.AttributeTypes(ctx),
 										},
 									},
-									Optional:            true,
+									Computed:            true,
 									Description:         "Enable TLS.",
 									MarkdownDescription: "Enable TLS.",
 								},
 								"url": schema.StringAttribute{
-									Optional:            true,
+									Computed:            true,
 									Description:         "InfluxDB server URL.",
 									MarkdownDescription: "InfluxDB server URL.",
 								},
 								"use_gzip": schema.BoolAttribute{
-									Optional:            true,
+									Computed:            true,
 									Description:         "When true, the exporter uses GZIP compression in write requests.",
 									MarkdownDescription: "When true, the exporter uses GZIP compression in write requests.",
 								},
@@ -205,7 +205,7 @@ func ServerListDataSourceSchema(ctx context.Context) schema.Schema {
 									AttrTypes: SpecValue{}.AttributeTypes(ctx),
 								},
 							},
-							Optional:            true,
+							Computed:            true,
 							Description:         "ServerSpec defines the desired state of Server",
 							MarkdownDescription: "ServerSpec defines the desired state of Server",
 						},
